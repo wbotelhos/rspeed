@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rspec/rails'
+require 'rspec'
 
 RSpec.configure do |config|
   config.filter_run_when_matching :focus

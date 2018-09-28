@@ -2,8 +2,7 @@
 
 ENV['RAILS_ENV'] ||= 'test'
 
-require 'active_record/railtie'
-require 'rspeed'
 require 'pry-byebug'
+require 'rspeed'
 
 Dir[File.expand_path('support/**/*.rb', __dir__)].each { |file| require file }
