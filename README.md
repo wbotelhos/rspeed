@@ -1,11 +1,24 @@
 # RSpeed
 
-[![Build Status](https://travis-ci.org/wbotelhos/normalizy.svg)](https://travis-ci.org/wbotelhos/normalizy)
-[![Gem Version](https://badge.fury.io/rb/normalizy.svg)](https://badge.fury.io/rb/normalizy)
-[![LiberPay](https://img.shields.io/badge/donate-%3C3-brightgreen.svg)](https://liberapay.com/wbotelhos)
+[![Build Status](https://travis-ci.org/wbotelhos/rspeed.svg)](https://travis-ci.org/wbotelhos/rspeed)
+[![Gem Version](https://badge.fury.io/rb/rspeed.svg)](https://badge.fury.io/rb/rspeed)
+[![Maintainability](https://api.codeclimate.com/v1/badges/cc5efe8b06bc1d5e9e8a/maintainability)](https://codeclimate.com/github/wbotelhos/rspeed/maintainability)
+[![Patreon](https://img.shields.io/badge/donate-%3C3-brightgreen.svg)](https://www.patreon.com/wbotelhos)
 
+Split and speed up your RSpec tests.
 
+## Install
 
-## Love it!
+Add the following code on your `Gemfile` and run `bundle install`:
 
-Via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=X8HEP2878NDEG&item_name=rspeed) or [LiberPay](https://liberapay.com/wbotelhos). Thanks! (:
+```ruby
+gem 'rspeed'
+```
+
+Run the following task to create a needed fiels:
+
+```sh
+
+```
+
+## Usage
