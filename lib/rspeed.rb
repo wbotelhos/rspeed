@@ -2,3 +2,5 @@
 
 module RSpeed
 end
+
+require 'rspeed/extension'
