@@ -4,3 +4,4 @@ module RSpeed
 end
 
 require 'rspeed/extension'
+require 'rspeed/splitter'
