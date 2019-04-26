@@ -1,25 +1,45 @@
 # frozen_string_literal: true
 
-require 'redis'
-
 class Splitter
+  def keys(key = 'rspeed_*')
+    cursor = 0
+    result = []
+
+    loop do
+      cursor, results = redis.scan(cursor, match: key)
+      result += results
+
+      break if cursor.to_i.zero?
+    end
+
+    result
+  end
+
+  def save(number_of_pipes)
+    split number_of_pipes
+
+    @pipes.each do |key, value|
+      redis.set key, value.to_json
+    end
+  end
+
   def split(number_of_pipes)
-    pipes = {}
+    @pipes = {}
 
     number_of_pipes.times do |index|
-      pipes["rspeed_#{index}".to_sym] ||= []
-      pipes["rspeed_#{index}".to_sym] = { total: 0, files: [], number: index }
+      @pipes["rspeed_#{index}".to_sym] ||= []
+      @pipes["rspeed_#{index}".to_sym] = { total: 0, files: [], number: index }
     end
 
     data.each.with_index do |(time, file), _index|
-      selected_pipe_data = pipes.min_by { |pipe| pipe[1][:total] }
-      selected_pipe      = pipes["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
+      selected_pipe_data = @pipes.min_by { |pipe| pipe[1][:total] }
+      selected_pipe      = @pipes["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
 
       selected_pipe[:total] += time
       selected_pipe[:files] << [time, file]
     end
 
-    pipes
+    @pipes
   end
 
   private
@@ -37,6 +57,6 @@ class Splitter
   end
 
   def redis
-    @redis ||= Redis.new(host: 'localhost', port: 6379, db: 0)
+    @redis ||= Redis.new(db: 14, host: 'localhost', port: 6379)
   end
 end

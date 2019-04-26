@@ -6,19 +6,6 @@ RSpec.describe Splitter, '.split' do
   subject(:splitter) { described_class.new }
 
   let!(:number_of_pipes) { 3 }
-  let!(:pipes)           { [] }
-
-  let!(:times) do
-    [
-      [2.0, '2_0_spec.rb'],
-      [1.5, '1_5_spec.rb'],
-      [1.1, '1_1_spec.rb'],
-      [0.7, '0_7_spec.rb'],
-      [0.4, '0_4_spec.rb'],
-      [0.3, '0_3_spec.rb'],
-      [0.2, '0_2_spec.rb']
-    ]
-  end
 
   it 'splits the times between the pipes' do
     expect(splitter.split(number_of_pipes)).to eq(
