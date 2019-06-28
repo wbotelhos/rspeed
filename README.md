@@ -20,3 +20,24 @@ gem 'rspeed'
 ```sh
 RSPEED=true RSPEED_PIPES=3 RSPEED_PIPE=1 r spec
 ```
+
+## Rake Example
+
+```sh
+# frozen_string_literal: true
+
+require "rspeed"
+
+namespace :rspeed do
+  task run: :environment do
+    pipe_number = ENV.fetch("RSPEED_PIPE", 1)
+    splitter    = ::RSpeed::Splitter.new
+    json        = splitter.get("rspeed_#{pipe_number}")
+    files       = json.map { |item| item["files"] }.reject(&:blank?).flatten(1).map { |item| item[1] }
+
+    puts "\n\n>>> [RSpeed] Pipe #{pipe_number}:\n\n#{files.join("\n")}\n\n"
+
+    sh "bundle exec rspec #{files.join(" ")}"
+  end
+end
+```
