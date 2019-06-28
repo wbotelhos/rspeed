@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Splitter, '.keys' do
+RSpec.describe RSpeed::Splitter, '.keys' do
   subject(:splitter) { described_class.new }
 
   let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }

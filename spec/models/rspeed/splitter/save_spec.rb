@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Splitter, '.save' do
+RSpec.describe RSpeed::Splitter, '.save' do
   subject(:splitter) { described_class.new }
 
   let!(:number_of_pipes) { 3 }
