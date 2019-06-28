@@ -3,5 +3,6 @@
 module RSpeed
 end
 
+require 'csv'
 require 'rspeed/extension'
 require 'rspeed/splitter'
