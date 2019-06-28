@@ -8,7 +8,6 @@ module RSpeed
       (actual_files + added_files).sort_by { |item| item[0].to_f }
     end
 
-    # TODO: spec
     def get(pattern = nil)
       @get ||= keys(pattern || DEFAULT_PATTERN).map { |key| JSON.parse redis.get(key) }
     end
@@ -43,11 +42,11 @@ module RSpeed
         @pipes["rspeed_#{index}".to_sym] = { total: 0, files: [], number: index }
       end
 
-      get.each.with_index do |(time, file), _index|
+      data.each.with_index do |(time, file), _index|
         selected_pipe_data = @pipes.min_by { |pipe| pipe[1][:total] }
         selected_pipe      = @pipes["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
 
-        selected_pipe[:total] += time
+        selected_pipe[:total] += time.to_f
         selected_pipe[:files] << [time, file]
       end
 
@@ -70,6 +69,10 @@ module RSpeed
 
     def added_specs
       actual_specs - saved_specs
+    end
+
+    def data
+      CSV.read('rspeed.csv')
     end
 
     def redis
