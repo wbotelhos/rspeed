@@ -15,10 +15,8 @@ Add the following code on your `Gemfile` and run `bundle install`:
 gem 'rspeed'
 ```
 
-Run the following task to create a needed fiels:
+## Usage
 
 ```sh
-
+RSPEED=true RSPEED_PIPES=3 RSPEED_PIPE=1 r spec
 ```
-
-## Usage
