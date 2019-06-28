@@ -29,7 +29,7 @@ if ENV['RSPEED'] == 'true'
     end
 
     config.after :suite do |_example|
-      puts "\n\n>>> [RSpeed] Result:\n\n"
+      puts "\n\n>>> [RSpeed] Statistics:\n\n"
 
       result = {}
 
