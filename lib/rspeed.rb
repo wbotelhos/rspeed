@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 module RSpeed
+  require 'csv'
+  require 'redis'
 end
 
-require 'csv'
 require 'rspeed/extension'
 require 'rspeed/splitter'
