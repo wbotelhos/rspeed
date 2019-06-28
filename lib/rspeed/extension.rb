@@ -5,8 +5,6 @@ if ENV['RSPEED'] == 'true'
 
   RSpec.configure do |config|
     config.before :suite do
-      number_of_threads = 3
-
       File.open('rspeed.csv.tmp', 'w') { |file| file.truncate 0 }
     end
 
