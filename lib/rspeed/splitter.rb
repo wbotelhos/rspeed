@@ -2,12 +2,23 @@
 
 module RSpeed
   class Splitter
-    def keys(key = 'rspeed_*')
+    DEFAULT_PATTERN = 'rspeed_*'
+
+    def diff
+      (actual_files + added_files).sort_by { |item| item[0].to_f }
+    end
+
+    # TODO: spec
+    def get(pattern = nil)
+      @get ||= keys(pattern || DEFAULT_PATTERN).map { |key| JSON.parse redis.get(key) }
+    end
+
+    def keys(pattern = DEFAULT_PATTERN)
       cursor = 0
       result = []
 
       loop do
-        cursor, results = redis.scan(cursor, match: key)
+        cursor, results = redis.scan(cursor, match: pattern)
         result += results
 
         break if cursor.to_i.zero?
@@ -32,7 +43,7 @@ module RSpeed
         @pipes["rspeed_#{index}".to_sym] = { total: 0, files: [], number: index }
       end
 
-      data.each.with_index do |(time, file), _index|
+      get.each.with_index do |(time, file), _index|
         selected_pipe_data = @pipes.min_by { |pipe| pipe[1][:total] }
         selected_pipe      = @pipes["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
 
@@ -45,20 +56,40 @@ module RSpeed
 
     private
 
-    def data
-      @data ||= [
-        [2.0, '2_0_spec.rb'],
-        [1.5, '1_5_spec.rb'],
-        [1.1, '1_1_spec.rb'],
-        [0.7, '0_7_spec.rb'],
-        [0.4, '0_4_spec.rb'],
-        [0.3, '0_3_spec.rb'],
-        [0.2, '0_2_spec.rb']
-      ]
+    def actual_files
+      saved_files.select { |item| actual_specs.include?(item[1]) }
+    end
+
+    def actual_specs
+      Dir['./spec/**/*_spec.rb']
+    end
+
+    def added_files
+      added_specs.map { |item| [0, item] }
+    end
+
+    def added_specs
+      actual_specs - saved_specs
     end
 
     def redis
       @redis ||= Redis.new(db: 14, host: 'localhost', port: 6379)
+    end
+
+    def removed_specs
+      saved_specs - actual_specs
+    end
+
+    def removed_time
+      removed_specs.map { |item| item[0].to_f }.sum
+    end
+
+    def saved_specs
+      saved_files.map { |file| file[1] }
+    end
+
+    def saved_files
+      get.map { |item| item['files'] }.flatten(1)
     end
   end
 end

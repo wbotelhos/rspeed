@@ -48,14 +48,6 @@ if ENV['RSPEED'] == 'true'
         end
       end
 
-      # mapped_specs = result.keys
-      # specs        = Dir['./spec/**/*_spec.rb']
-      # new_specs    = specs.reject { |spec| mapped_specs.include? spec }
-      #
-      # new_specs.each do |new_spec|
-      #   result[new_spec] = 0
-      # end
-
       result.each do |file, time|
         puts "#{time},#{file}\n"
       end
