@@ -49,6 +49,10 @@ if ENV['RSPEED'] == 'true'
       result.each do |file, time|
         puts "#{time},#{file}\n"
       end
+
+      puts "\n\n>>> [RSpeed] Result:\n\n"
+
+      puts ::RSpeed::Splitter.new.save ENV.fetch('RSPEED_PIPES', 1).to_i
     end
   end
 end
