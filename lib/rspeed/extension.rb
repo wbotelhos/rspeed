@@ -12,7 +12,7 @@ if ENV['RSPEED'] == 'true'
       file_path = example.metadata[:file_path]
       start_at  = example.clock.now
 
-      puts %([RSpeed:before] Test #{file_path} started at: #{start_at})
+      puts %([RSpeed:before] #{file_path} started at: #{start_at})
 
       example.update_inherited_metadata start_at: start_at
     end
@@ -21,7 +21,7 @@ if ENV['RSPEED'] == 'true'
       file_path       = example.metadata[:file_path]
       time_difference = example.clock.now - example.metadata[:start_at]
 
-      puts %([RSpeed:after] Test #{file_path} took: #{time_difference}\n\n)
+      puts %([RSpeed:after] #{file_path} took: #{time_difference}\n\n)
 
       File.open('rspeed.csv.tmp', 'a') do |file|
         file.write "#{time_difference},#{file_path}\n"
