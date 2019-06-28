@@ -5,7 +5,7 @@ if ENV['RSPEED'] == 'true'
 
   RSpec.configure do |config|
     config.before :suite do
-      File.open('rspeed.csv.tmp', 'w') { |file| file.truncate 0 }
+      File.open('rspeed.csv', 'w') { |file| file.truncate 0 }
     end
 
     config.before do |example|
@@ -23,7 +23,7 @@ if ENV['RSPEED'] == 'true'
 
       puts %([RSpeed:after] #{file_path} took: #{time_difference}\n\n)
 
-      File.open('rspeed.csv.tmp', 'a') do |file|
+      File.open('rspeed.csv', 'a') do |file|
         file.write "#{time_difference},#{file_path}\n"
       end
     end
@@ -33,7 +33,7 @@ if ENV['RSPEED'] == 'true'
 
       result = {}
 
-      CSV.read('rspeed.csv.tmp').each do |line|
+      CSV.read('rspeed.csv').each do |line|
         result[line[1]] ||= 0
         result[line[1]] += line[0].to_d
       end
