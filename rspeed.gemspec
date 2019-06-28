@@ -19,6 +19,8 @@ Gem::Specification.new do |spec|
   spec.test_files  = Dir['spec/**/*']
   spec.version     = RSpeed::VERSION
 
+  spec.add_dependency 'redis'
+
   spec.add_development_dependency 'fakeredis'
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rspec'

@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     rspeed (0.0.1)
+      redis
 
 GEM
   remote: https://rubygems.org/
