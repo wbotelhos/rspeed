@@ -26,6 +26,14 @@ module RSpeed
       result
     end
 
+    def pipe
+      ENV.fetch('RSPEED_PIPE') { 1 }.to_i
+    end
+
+    def pipes
+      keys.empty? ? 1 : ENV.fetch('RSPEED_PIPES') { 1 }.to_i
+    end
+
     def save(number_of_pipes)
       split number_of_pipes
 
