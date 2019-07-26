@@ -19,6 +19,6 @@ RSpec.describe RSpeed::Splitter, '#diff' do
   end
 
   it 'returns only the actual specs with the news on first key' do
-    expect(splitter.diff).to eq [[0, '4_spec.rb'], [2, '2_spec.rb'], [3, '3_spec.rb']]
+    expect(splitter.diff).to eq [['0.0', '4_spec.rb'], [2, '2_spec.rb'], [3, '3_spec.rb']]
   end
 end

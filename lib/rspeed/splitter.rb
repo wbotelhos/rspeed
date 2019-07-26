@@ -64,7 +64,7 @@ module RSpeed
     end
 
     def added_files
-      added_specs.map { |item| [0, item] }
+      added_specs.map { |item| ['0.0', item] }
     end
 
     def added_specs
