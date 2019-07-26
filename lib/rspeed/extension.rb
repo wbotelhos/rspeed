@@ -52,7 +52,9 @@ if ENV['RSPEED'] == 'true'
 
       puts "\n\n>>> [RSpeed] Result:\n\n"
 
-      puts ::RSpeed::Splitter.new.save ENV.fetch('RSPEED_PIPES', 1).to_i
+      splitter = ::RSpeed::Splitter.new
+
+      puts splitter.save
     end
   end
 end

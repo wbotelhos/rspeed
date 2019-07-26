@@ -34,31 +34,29 @@ module RSpeed
       keys.empty? ? 1 : ENV.fetch('RSPEED_PIPES') { 1 }.to_i
     end
 
-    def save(number_of_pipes)
-      split number_of_pipes
-
-      @pipes.each do |key, value|
+    def save
+      split.each do |key, value|
         redis.set key, value.to_json
       end
     end
 
-    def split(number_of_pipes)
-      @pipes = {}
+    def split
+      json = {}
 
-      number_of_pipes.times do |index|
-        @pipes["rspeed_#{index + 1}".to_sym] ||= []
-        @pipes["rspeed_#{index + 1}".to_sym] = { total: 0, files: [], number: index + 1 }
+      pipes.times do |index|
+        json["rspeed_#{index + 1}".to_sym] ||= []
+        json["rspeed_#{index + 1}".to_sym] = { total: 0, files: [], number: index + 1 }
       end
 
       data.each.with_index do |(time, file), _index|
-        selected_pipe_data = @pipes.min_by { |pipe| pipe[1][:total] }
-        selected_pipe      = @pipes["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
+        selected_pipe_data = json.min_by { |pipe| pipe[1][:total] }
+        selected_pipe      = json["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
 
         selected_pipe[:total] += time.to_f
         selected_pipe[:files] << [time, file]
       end
 
-      @pipes
+      json
     end
 
     private

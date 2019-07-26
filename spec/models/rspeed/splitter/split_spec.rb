@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe RSpeed::Splitter, '.split' do
   subject(:splitter) { described_class.new }
 
-  let!(:number_of_pipes) { 3 }
+  before { allow(splitter).to receive(:pipes).and_return 3 }
 
   it 'splits the times between the pipes' do
-    expect(splitter.split(number_of_pipes)).to eq(
+    expect(splitter.split).to eq(
       rspeed_1: {
         files: [['2.0', './spec/2_0_spec.rb']],
         number: 1,

@@ -14,8 +14,6 @@ RSpec.describe RSpeed::Splitter, '#pipe' do
   end
 
   context 'when pipe env is not given' do
-    before { ENV.delete 'RSPEED_PIPE' }
-
     it 'returns 1' do
       expect(splitter.pipe).to eq 1
     end

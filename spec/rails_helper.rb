@@ -13,4 +13,9 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.order = :random
+
+  config.after do
+    ENV.delete 'RSPEED_PIPE'
+    ENV.delete 'RSPEED_PIPES'
+  end
 end

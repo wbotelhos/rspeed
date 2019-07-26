@@ -5,11 +5,12 @@ require 'rails_helper'
 RSpec.describe RSpeed::Splitter, '.save' do
   subject(:splitter) { described_class.new }
 
-  let!(:number_of_pipes) { 3 }
   let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }
 
+  before { allow(splitter).to receive(:pipes).and_return 3 }
+
   it 'saves the data on redis' do
-    splitter.save number_of_pipes
+    splitter.save
 
     expect(redis.keys('*')).to eq %w[rspeed_1 rspeed_2 rspeed_3]
 
