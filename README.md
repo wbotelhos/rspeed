@@ -15,10 +15,16 @@ Add the following code on your `Gemfile` and run `bundle install`:
 gem 'rspeed'
 ```
 
-## Usage
+## Analise
 
 ```sh
-RSPEED=true RSPEED_PIPES=3 RSPEED_PIPE=1 r spec
+RSPEED=true RSPEED_PIPES=3 rspec spec
+```
+
+## Run
+
+```sh
+RSPEED=true RSPEED_PIPE=1 rspec spec
 ```
 
 ## Rake Example
