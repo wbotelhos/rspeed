@@ -38,8 +38,8 @@ module RSpeed
       @pipes = {}
 
       number_of_pipes.times do |index|
-        @pipes["rspeed_#{index}".to_sym] ||= []
-        @pipes["rspeed_#{index}".to_sym] = { total: 0, files: [], number: index }
+        @pipes["rspeed_#{index + 1}".to_sym] ||= []
+        @pipes["rspeed_#{index + 1}".to_sym] = { total: 0, files: [], number: index + 1 }
       end
 
       data.each.with_index do |(time, file), _index|
