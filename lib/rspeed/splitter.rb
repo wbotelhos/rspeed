@@ -16,10 +16,6 @@ module RSpeed
       @get ||= keys(pattern).map { |key| JSON.parse redis.get(key) }
     end
 
-    def has_result?
-      !keys('rspeed').empty?
-    end
-
     def keys(pattern = DEFAULT_PATTERN)
       cursor = 0
       result = []
@@ -43,7 +39,11 @@ module RSpeed
     end
 
     def pipes
-      has_result? ? ENV.fetch('RSPEED_PIPES') { 1 }.to_i : 1
+      result? ? ENV.fetch('RSPEED_PIPES') { 1 }.to_i : 1
+    end
+
+    def result?
+      !keys('rspeed').empty?
     end
 
     def save

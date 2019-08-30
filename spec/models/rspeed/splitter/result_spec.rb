@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe RSpeed::Splitter, '#has_result?' do
+RSpec.describe RSpeed::Splitter, '#result?' do
   subject(:splitter) { described_class.new }
 
   context 'when has no key rspeed on redis' do
-    it { expect(splitter.has_result?).to eq false }
+    it { expect(splitter.result?).to eq false }
   end
 
   context 'when has no key rspeed on redis' do
@@ -14,6 +14,6 @@ RSpec.describe RSpeed::Splitter, '#has_result?' do
 
     before { redis.set 'rspeed', { files: [[1, '1_spec.rb']], number: 0, total: 1 }.to_json }
 
-    it { expect(splitter.has_result?).to eq true }
+    it { expect(splitter.result?).to eq true }
   end
 end
