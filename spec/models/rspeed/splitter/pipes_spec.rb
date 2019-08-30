@@ -5,31 +5,23 @@ require 'rails_helper'
 RSpec.describe RSpeed::Splitter, '#pipes' do
   subject(:splitter) { described_class.new }
 
-  context 'when has no key rspeed on redis' do
-    before { ENV['RSPEED_PIPES'] = '2' }
+  context 'when has no result' do
+    before { allow(splitter).to receive(:has_result?).and_return(false) }
 
-    it 'ignores env and returns 1' do
+    it 'the number of pipes is adjusted to one' do
       expect(splitter.pipes).to eq 1
     end
   end
 
-  context 'when has key rspeed on redis' do
-    let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }
+  context 'when has result' do
+    before do
+      allow(splitter).to receive(:has_result?).and_return(true)
 
-    before { redis.set 'rspeed', { files: [[1, '1_spec.rb']], number: 0, total: 1 }.to_json }
-
-    context 'when pipe env is given' do
-      before { ENV['RSPEED_PIPES'] = '2' }
-
-      it 'returns the number of the current pipe' do
-        expect(splitter.pipes).to eq 2
-      end
+      ENV['RSPEED_PIPES'] = '2'
     end
 
-    context 'when pipe env is not given' do
-      before { ENV.delete 'RSPEED_PIPES' }
-
-      it { expect(splitter.pipes).to eq 1 }
+    it 'is used the given value on env' do
+      expect(splitter.pipes).to eq 2
     end
   end
 end
