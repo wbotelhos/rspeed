@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 if ENV['RSPEED'] == 'true'
+  require 'rspec/rails'
+
   RSpec.configure do |config|
     config.before :suite do
       File.open('rspeed.csv', 'w') { |file| file.truncate 0 }
