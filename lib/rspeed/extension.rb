@@ -47,10 +47,6 @@ if ENV['RSPEED'] == 'true'
           file.write "#{time},#{file_spec}\n"
         end
       end
-
-      splitter = ::RSpeed::Splitter.new
-
-      splitter.save
     end
   end
 end
