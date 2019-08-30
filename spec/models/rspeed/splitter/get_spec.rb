@@ -7,14 +7,14 @@ RSpec.describe RSpeed::Splitter, '#get' do
 
   let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }
 
-  before do
-    redis.set 'rspeed_0', { files: [[1, '1_spec.rb'], [2, '2_spec.rb']], number: 0, total: 3 }.to_json
-    redis.set 'rspeed_1', { files: [[3, '3_spec.rb']], number: 1, total: 3 }.to_json
-  end
+  context 'when wildcard pattern is given' do
+    before do
+      redis.set 'rspeed_1', { files: [[1, '1_spec.rb'], [2, '2_spec.rb']], number: 0, total: 3 }.to_json
+      redis.set 'rspeed_2', { files: [[3, '3_spec.rb']], number: 1, total: 3 }.to_json
+    end
 
-  context 'when no pattern is given' do
-    it 'returns only the actual specs with the news on first key' do
-      expect(splitter.get).to eq [
+    it 'returns all values' do
+      expect(splitter.get('rspeed_*')).to eq [
         {
           'files' => [[1, '1_spec.rb'], [2, '2_spec.rb']],
           'number' => 0,
@@ -24,6 +24,22 @@ RSpec.describe RSpeed::Splitter, '#get' do
         {
           'files' => [[3, '3_spec.rb']],
           'number' => 1,
+          'total' => 3
+        }
+      ]
+    end
+  end
+
+  context 'when normal pattern is given' do
+    before do
+      redis.set 'rspeed', { files: [[1, '1_spec.rb'], [2, '2_spec.rb']], number: 0, total: 3 }.to_json
+    end
+
+    it 'returns all values from that key' do
+      expect(splitter.get('rspeed')).to eq [
+        {
+          'files' => [[1, '1_spec.rb'], [2, '2_spec.rb']],
+          'number' => 0,
           'total' => 3
         }
       ]

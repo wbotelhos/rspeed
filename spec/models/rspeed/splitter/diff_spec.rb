@@ -8,8 +8,9 @@ RSpec.describe RSpeed::Splitter, '#diff' do
   let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }
 
   before do
-    redis.set 'rspeed_1', { files: [[1, '1_spec.rb'], [2, '2_spec.rb']], number: 0, total: 3 }.to_json
-    redis.set 'rspeed_2', { files: [[3, '3_spec.rb']], number: 1, total: 3 }.to_json
+    redis.set 'rspeed', {
+      files: [[1, '1_spec.rb'], [2, '2_spec.rb'], [3, '3_spec.rb']], number: 0, total: 6
+    }.to_json
 
     allow(Dir).to receive(:[]).with('./spec/**/*_spec.rb').and_return %w[
       2_spec.rb
@@ -18,7 +19,7 @@ RSpec.describe RSpeed::Splitter, '#diff' do
     ]
   end
 
-  it 'returns only the actual specs with the news on first key' do
+  it 'removes removed specs and adds new spec and keeps keeped specs based on rspeed key values' do
     expect(splitter.diff).to eq [['0.0', '4_spec.rb'], [2, '2_spec.rb'], [3, '3_spec.rb']]
   end
 end

@@ -12,8 +12,8 @@ module RSpeed
       pipe == 1
     end
 
-    def get(pattern = nil)
-      @get ||= keys(pattern || DEFAULT_PATTERN).map { |key| JSON.parse redis.get(key) }
+    def get(pattern)
+      @get ||= keys(pattern).map { |key| JSON.parse redis.get(key) }
     end
 
     def has_result?
@@ -106,7 +106,7 @@ module RSpeed
     end
 
     def saved_files
-      get.map { |item| item['files'] }.flatten(1)
+      get('rspeed').map { |item| item['files'] }.flatten(1)
     end
   end
 end
