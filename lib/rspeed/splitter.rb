@@ -4,6 +4,12 @@ module RSpeed
   class Splitter
     DEFAULT_PATTERN = 'rspeed_*'
 
+    def append(files)
+      files.each do |file, time|
+        redis.lpush 'rspeed', { file: file, time: time }.to_json
+      end
+    end
+
     def destroy(pattern = DEFAULT_PATTERN)
       keys(pattern).each { |key| redis.del key }
     end
@@ -17,7 +23,11 @@ module RSpeed
     end
 
     def get(pattern)
-      @get ||= keys(pattern).map { |key| JSON.parse redis.get(key) }
+      @get ||= begin
+        return redis.lrange('rspeed', 0, -1) if pattern == 'rspeed'
+
+        keys(pattern).map { |key| JSON.parse redis.get(key) }
+      end
     end
 
     def keys(pattern = DEFAULT_PATTERN)
