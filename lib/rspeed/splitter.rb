@@ -4,7 +4,7 @@ module RSpeed
   class Splitter
     DEFAULT_PATTERN = 'rspeed_*'
 
-    def destroy(pattern)
+    def destroy(pattern = DEFAULT_PATTERN)
       keys(pattern).each { |key| redis.del key }
     end
 

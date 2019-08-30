@@ -24,4 +24,10 @@ RSpec.describe RSpeed::Splitter, '#destroy' do
 
     expect(splitter.keys('*')).to eq %w[rspeed_1 rspeed_2]
   end
+
+  it 'destroys default partner when no pattern is given' do
+    splitter.destroy
+
+    expect(splitter.keys('*')).to eq %w[rspeed]
+  end
 end
