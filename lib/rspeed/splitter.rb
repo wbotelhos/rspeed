@@ -4,8 +4,10 @@ module RSpeed
   class Splitter
     DEFAULT_PATTERN = 'rspeed_*'
 
-    def append(files)
-      files.each { |file| redis.lpush 'rspeed', file.to_json }
+    def append(files = CSV.read('rspeed.csv'))
+      files.each do |time, file|
+        redis.lpush 'rspeed', { file: file, time: time.to_f }.to_json
+      end
     end
 
     def destroy(pattern = DEFAULT_PATTERN)
