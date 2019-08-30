@@ -8,6 +8,10 @@ module RSpeed
       (actual_files + added_files).sort_by { |item| item[0].to_f }
     end
 
+    def first_pipe?
+      pipe == 1
+    end
+
     def get(pattern = nil)
       @get ||= keys(pattern || DEFAULT_PATTERN).map { |key| JSON.parse redis.get(key) }
     end
@@ -24,6 +28,10 @@ module RSpeed
       end
 
       result
+    end
+
+    def last_pipe?
+      pipe == pipes
     end
 
     def pipe
