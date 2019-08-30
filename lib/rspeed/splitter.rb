@@ -31,7 +31,7 @@ module RSpeed
     end
 
     def pipes
-      keys.empty? ? 1 : ENV.fetch('RSPEED_PIPES') { 1 }.to_i
+      keys('rspeed').empty? ? 1 : ENV.fetch('RSPEED_PIPES') { 1 }.to_i
     end
 
     def save
