@@ -56,6 +56,10 @@ module RSpeed
       result? ? ENV.fetch('RSPEED_PIPES') { 1 }.to_i : 1
     end
 
+    def rename
+      redis.rename 'rspeed_tmp', 'rspeed'
+    end
+
     def result?
       !keys('rspeed').empty?
     end
