@@ -9,19 +9,12 @@ if ENV['RSPEED'] == 'true'
     end
 
     config.before do |example|
-      file_path = example.metadata[:file_path]
-      start_at  = example.clock.now
-
-      puts %([RSpeed:before] #{file_path} started at: #{start_at})
-
-      example.update_inherited_metadata start_at: start_at
+      example.update_inherited_metadata start_at: example.clock.now
     end
 
     config.after do |example|
       file_path       = example.metadata[:file_path]
       time_difference = example.clock.now - example.metadata[:start_at]
-
-      puts %([RSpeed:after] #{file_path} took: #{time_difference}\n\n)
 
       File.open('rspeed.csv', 'a') do |file|
         file.write "#{time_difference},#{file_path}\n"
@@ -29,8 +22,6 @@ if ENV['RSPEED'] == 'true'
     end
 
     config.after :suite do |_example|
-      puts "\n\n>>> [RSpeed] Statistics:\n\n"
-
       result = {}
 
       CSV.read('rspeed.csv').each do |line|
