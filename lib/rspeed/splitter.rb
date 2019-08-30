@@ -5,9 +5,7 @@ module RSpeed
     DEFAULT_PATTERN = 'rspeed_*'
 
     def append(files)
-      files.each do |file, time|
-        redis.lpush 'rspeed', { file: file, time: time }.to_json
-      end
+      files.each { |file| redis.lpush 'rspeed', file.to_json }
     end
 
     def destroy(pattern = DEFAULT_PATTERN)
@@ -15,7 +13,7 @@ module RSpeed
     end
 
     def diff
-      (actual_files + added_files).sort_by { |item| item[0].to_f }
+      (actual_files + added_files).sort_by { |item| item[:time].to_f }
     end
 
     def first_pipe?
@@ -79,7 +77,7 @@ module RSpeed
         selected_pipe      = json["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
 
         selected_pipe[:total] += time.to_f
-        selected_pipe[:files] << [time, file]
+        selected_pipe[:files] << { file: file, time: time }
       end
 
       json
@@ -88,7 +86,7 @@ module RSpeed
     private
 
     def actual_files
-      saved_files.select { |item| actual_specs.include?(item[1]) }
+      saved_files.select { |item| actual_specs.include?(item[:file]) }
     end
 
     def actual_specs
@@ -96,7 +94,7 @@ module RSpeed
     end
 
     def added_files
-      added_specs.map { |item| ['0.0', item] }
+      added_specs.map { |item| { file: item, time: 0 } }
     end
 
     def added_specs
@@ -116,11 +114,11 @@ module RSpeed
     end
 
     def saved_specs
-      saved_files.map { |file| file[1] }
+      saved_files.map { |item| item[:file] }
     end
 
     def saved_files
-      get('rspeed').map { |item| item['files'] }.flatten(1)
+      get('rspeed').map { |item| JSON.parse item, symbolize_names: true }
     end
   end
 end
