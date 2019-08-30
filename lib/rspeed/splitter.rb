@@ -6,7 +6,7 @@ module RSpeed
 
     def append(files = CSV.read('rspeed.csv'))
       files.each do |time, file|
-        redis.lpush 'rspeed', { file: file, time: time.to_f }.to_json
+        redis.lpush 'rspeed_tmp', { file: file, time: time.to_f }.to_json
       end
     end
 
@@ -24,7 +24,7 @@ module RSpeed
 
     def get(pattern)
       @get ||= begin
-        return redis.lrange('rspeed', 0, -1) if pattern == 'rspeed'
+        return redis.lrange(pattern, 0, -1) if %w[rspeed rspeed_tmp].include?(pattern)
 
         keys(pattern).map { |key| JSON.parse redis.get(key) }
       end
