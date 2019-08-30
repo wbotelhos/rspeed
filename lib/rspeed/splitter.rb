@@ -60,7 +60,7 @@ module RSpeed
         json["rspeed_#{index + 1}".to_sym] = { total: 0, files: [], number: index + 1 }
       end
 
-      data.each.with_index do |(time, file), _index|
+      CSV.read('rspeed.csv').each.with_index do |(time, file), _index|
         selected_pipe_data = json.min_by { |pipe| pipe[1][:total] }
         selected_pipe      = json["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
 
@@ -87,10 +87,6 @@ module RSpeed
 
     def added_specs
       actual_specs - saved_specs
-    end
-
-    def data
-      CSV.read('rspeed.csv')
     end
 
     def redis
