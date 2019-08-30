@@ -15,7 +15,9 @@ module RSpeed
     end
 
     def diff
-      (actual_files + added_files).sort_by { |item| item[:time].to_f }
+      (actual_files + added_files).sort_by { |item| item[:time].to_f }.map do |item|
+        [item[:time], item[:file]]
+      end
     end
 
     def first_pipe?
