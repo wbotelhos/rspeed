@@ -48,10 +48,6 @@ if ENV['RSPEED'] == 'true'
         end
       end
 
-      result.each do |file, time|
-        puts "#{time},#{file}\n"
-      end
-
       puts "\n\n>>> [RSpeed] Result:\n\n"
 
       splitter = ::RSpeed::Splitter.new
