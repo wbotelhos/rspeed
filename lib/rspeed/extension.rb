@@ -48,11 +48,9 @@ if ENV['RSPEED'] == 'true'
         end
       end
 
-      puts "\n\n>>> [RSpeed] Result:\n\n"
-
       splitter = ::RSpeed::Splitter.new
 
-      puts splitter.save
+      splitter.save
     end
   end
 end
