@@ -4,6 +4,10 @@ module RSpeed
   class Splitter
     DEFAULT_PATTERN = 'rspeed_*'
 
+    def destroy(pattern)
+      keys(pattern).each { |key| redis.del key }
+    end
+
     def diff
       (actual_files + added_files).sort_by { |item| item[0].to_f }
     end
