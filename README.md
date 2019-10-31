@@ -5,7 +5,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/cc5efe8b06bc1d5e9e8a/maintainability)](https://codeclimate.com/github/wbotelhos/rspeed/maintainability)
 [![Patreon](https://img.shields.io/badge/donate-%3C3-brightgreen.svg)](https://www.patreon.com/wbotelhos)
 
-Split and speed up your RSpec tests.
+RSpeed splits your specs to you run parallels tests.
 
 ## Install
 
@@ -15,35 +15,19 @@ Add the following code on your `Gemfile` and run `bundle install`:
 gem 'rspeed'
 ```
 
-## Analise
+## Setup
 
-```sh
-RSPEED=true RSPEED_PIPES=3 rspec spec
+We need to extract the rake that executes the split via `rspeed:run`.
+
+```ruby
+rake rspeed:install
 ```
 
-## Run
+## Usage
+
+`RSPEED_PIPES`: Quantity of pipes
+`RSPEED_PIPE`: Current pipe
 
 ```sh
-RSPEED=true RSPEED_PIPE=1 rspec spec
-```
-
-## Rake Example
-
-```sh
-# frozen_string_literal: true
-
-require "rspeed"
-
-namespace :rspeed do
-  task run: :environment do
-    pipe_number = ENV.fetch("RSPEED_PIPE", 1)
-    splitter    = ::RSpeed::Splitter.new
-    json        = splitter.get("rspeed_#{pipe_number}")
-    files       = json.map { |item| item["files"] }.reject(&:blank?).flatten(1).map { |item| item[1] }
-
-    puts "\n\n>>> [RSpeed] Pipe #{pipe_number}:\n\n#{files.join("\n")}\n\n"
-
-    sh "bundle exec rspec #{files.join(" ")}"
-  end
-end
+RSPEED=true RSPEED_PIPES=3 RSPEED_PIPE=1 bundle exec rake rspeed:run
 ```
