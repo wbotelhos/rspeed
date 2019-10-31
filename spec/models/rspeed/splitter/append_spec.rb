@@ -29,13 +29,4 @@ RSpec.describe RSpeed::Splitter, '#append' do
       ]
     end
   end
-
-  it 'appends file and time on rspeed key' do
-    splitter.append [[1, '1_spec.rb'], [2, '2_spec.rb']]
-
-    expect(splitter.get('rspeed_tmp')).to eq [
-      '{"file":"2_spec.rb","time":2.0}',
-      '{"file":"1_spec.rb","time":1.0}'
-    ]
-  end
 end
