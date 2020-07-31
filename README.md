@@ -25,9 +25,66 @@ rake rspeed:install
 
 ## Usage
 
-`RSPEED_PIPES`: Quantity of pipes
-`RSPEED_PIPE`: Current pipe
+- `RSPEED`: Enables RSpeed
+- `RSPEED_PIPES`: Quantity of pipes
+- `RSPEED_PIPE`: Current pipe
 
 ```sh
 RSPEED=true RSPEED_PIPES=3 RSPEED_PIPE=1 bundle exec rake rspeed:run
 ```
+
+## How it Works
+
+### First run
+
+1. Since we has no statistics on the first time, we run all specs and collect it;
+
+```json
+{ "file": "./spec/models/1_spec.rb", "time": 0.01 }
+{ "file": "./spec/models/2_spec.rb", "time": 0.02 }
+{ "file": "./spec/models/3_spec.rb", "time": 0.001 }
+{ "file": "./spec/models/4_spec.rb", "time": 1 }
+```
+
+### Second and next runs
+
+1. Previous statistics is balanced by times and distributed between pipes:
+
+```json
+{ "file": "./spec/models/4_spec.rb", "time": 1 }
+```
+
+```json
+{ "file": "./spec/models/2_spec.rb", "time": 0.02 }
+```
+
+```json
+{ "file": "./spec/models/3_spec.rb", "time": 0.001 }
+{ "file": "./spec/models/1_spec.rb", "time": 0.01 }
+```
+
+2. Run the current pipe `1`:
+
+```json
+{ "file": "./spec/models/4_spec.rb", "time": 1 }
+```
+
+- Collects statistics and temporary save it;
+
+4. Run the current pipe `2`:
+
+```json
+{ "file": "./spec/models/2_spec.rb", "time": 0.02 }
+```
+
+- Collects statistics and temporary save it;
+
+5. Run the current pipe `3`:
+
+```json
+{ "file": "./spec/models/3_spec.rb", "time": 0.001 }
+{ "file": "./spec/models/1_spec.rb", "time": 0.01 }
+```
+
+- Collects statistics and temporary save it;
+- Sum all the last statistics and save it for the next run;
