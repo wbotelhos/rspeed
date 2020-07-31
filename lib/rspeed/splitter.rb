@@ -115,7 +115,7 @@ module RSpeed
     end
 
     def redis
-      @redis ||= ::Redis.new(db: 14, host: 'localhost', port: 6379)
+      @redis ||= ::Redis.new(db: ENV['RSPEED_DB'], host: ENV['RSPEED_HOST'], port: ENV.fetch('RSPEED_PORT') { 6379 })
     end
 
     def removed_specs

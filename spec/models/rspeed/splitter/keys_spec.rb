@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe RSpeed::Splitter, '.keys' do
   subject(:splitter) { described_class.new }
 
-  let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }
+  let!(:redis) { redis_object }
 
   context 'with default config' do
     before do

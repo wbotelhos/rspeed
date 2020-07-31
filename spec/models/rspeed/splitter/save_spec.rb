@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe RSpeed::Splitter, '.save' do
   subject(:splitter) { described_class.new }
 
-  let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }
+  let!(:redis) { redis_object }
 
   before { allow(splitter).to receive(:pipes).and_return 3 }
 

@@ -18,3 +18,7 @@ RSpec.configure do |config|
     ENV.delete 'RSPEED_PIPES'
   end
 end
+
+def redis_object
+  @redis_object ||= Redis.new(db: ENV['RSPEED_DB'], host: ENV['RSPEED_HOST'])
+end

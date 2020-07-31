@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe RSpeed::Splitter, '#get' do
   subject(:splitter) { described_class.new }
 
-  let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }
+  let!(:redis) { redis_object }
 
   context 'when wildcard pattern is given' do
     before do

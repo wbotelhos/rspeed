@@ -10,7 +10,7 @@ RSpec.describe RSpeed::Splitter, '#result?' do
   end
 
   context 'when has no key rspeed on redis' do
-    let!(:redis) { Redis.new db: 14, host: 'localhost', port: 6379 }
+    let!(:redis) { redis_object }
 
     before { redis.set 'rspeed', { files: [[1, '1_spec.rb']], number: 0, total: 1 }.to_json }
 
