@@ -4,7 +4,7 @@ module RSpeed
   class Splitter
     DEFAULT_PATTERN = 'rspeed_*'
 
-    def append(files = CSV.read('rspeed.csv'))
+    def append(files = file_data)
       files.each do |time, file|
         redis.lpush 'rspeed_tmp', { file: file, time: time.to_f }.to_json
       end
@@ -66,13 +66,13 @@ module RSpeed
       !keys('rspeed').empty?
     end
 
-    def save
-      split.each do |key, value|
+    def save(data = rspeed_data)
+      split(data).each do |key, value|
         redis.set key, value.to_json
       end
     end
 
-    def split(data = CSV.read('rspeed.csv'))
+    def split(data)
       json = {}
 
       pipes.times do |index|
@@ -80,12 +80,13 @@ module RSpeed
         json["rspeed_#{index + 1}".to_sym] = { total: 0, files: [], number: index + 1 }
       end
 
-      data.each.with_index do |(time, file), _index|
+      data.each do |record|
         selected_pipe_data = json.min_by { |pipe| pipe[1][:total] }
         selected_pipe      = json["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
+        time               = record[:time].to_f
 
-        selected_pipe[:total] += time.to_f
-        selected_pipe[:files] << { file: file, time: time }
+        selected_pipe[:total] += time
+        selected_pipe[:files] << { file: record[:file], time: time }
       end
 
       json
@@ -94,7 +95,7 @@ module RSpeed
     private
 
     def actual_files
-      saved_files.select { |item| actual_specs.include?(item[:file]) }
+      rspeed_data.select { |item| actual_specs.include?(item[:file]) }
     end
 
     def actual_specs
@@ -109,6 +110,10 @@ module RSpeed
       actual_specs - saved_specs
     end
 
+    def file_data
+      CSV.read('rspeed.csv')
+    end
+
     def redis
       @redis ||= ::Redis.new(db: 14, host: 'localhost', port: 6379)
     end
@@ -121,12 +126,12 @@ module RSpeed
       removed_specs.map { |item| item[0].to_f }.sum
     end
 
-    def saved_specs
-      saved_files.map { |item| item[:file] }
+    def rspeed_data
+      get('rspeed').map { |item| JSON.parse item, symbolize_names: true }
     end
 
-    def saved_files
-      get('rspeed').map { |item| JSON.parse item, symbolize_names: true }
+    def saved_specs
+      rspeed_data.map { |item| item[:file] }
     end
   end
 end
