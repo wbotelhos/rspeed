@@ -3,6 +3,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 require 'fakeredis/rspec'
+require 'json'
 require 'pry-byebug'
 require 'rspec'
 require 'rspeed'
