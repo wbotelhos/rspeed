@@ -1,23 +1,19 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('lib', __dir__)
-
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-
-require 'rspeed/version'
+require_relative 'lib/rspeed/version'
 
 Gem::Specification.new do |spec|
-  spec.author      = 'Washington Botelho'
-  spec.description = 'Split and speed up your RSpec tests.'
-  spec.email       = 'wbotelhos@gmail.com'
-  spec.files       = Dir['lib/**/*'] + %w[CHANGELOG.md LICENSE README.md]
-  spec.homepage    = 'https://github.com/wbotelhos/rspeed'
-  spec.license     = 'MIT'
-  spec.name        = 'rspeed'
-  spec.platform    = Gem::Platform::RUBY
-  spec.summary     = 'Split and speed up your RSpec tests.'
-  spec.test_files  = Dir['spec/**/*']
-  spec.version     = RSpeed::VERSION
+  spec.author           = 'Washington Botelho'
+  spec.description      = 'Split and speed up your RSpec tests.'
+  spec.email            = 'wbotelhos@gmail.com'
+  spec.extra_rdoc_files = Dir['CHANGELOG.md', 'LICENSE', 'README.md']
+  spec.files            = `git ls-files lib`.split("\n")
+  spec.homepage         = 'https://github.com/wbotelhos/rspeed'
+  spec.license          = 'MIT'
+  spec.name             = 'rspeed'
+  spec.summary          = 'Split and speed up your RSpec tests.'
+  spec.test_files       = Dir['spec/**/*']
+  spec.version          = RSpeed::VERSION
 
   spec.add_dependency 'redis'
 
