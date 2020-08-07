@@ -1,6 +1,6 @@
 # RSpeed
 
-[![Build Status](https://travis-ci.org/wbotelhos/rspeed.svg)](https://travis-ci.org/wbotelhos/rspeed)
+[![Build Status](https://github.com/wbotelhos/rspeed/workflows/CI/badge.svg)](https://github.com/wbotelhos/rspeed/actions)
 [![Gem Version](https://badge.fury.io/rb/rspeed.svg)](https://badge.fury.io/rb/rspeed)
 [![Maintainability](https://api.codeclimate.com/v1/badges/cc5efe8b06bc1d5e9e8a/maintainability)](https://codeclimate.com/github/wbotelhos/rspeed/maintainability)
 [![Patreon](https://img.shields.io/badge/donate-%3C3-brightgreen.svg)](https://www.patreon.com/wbotelhos)
