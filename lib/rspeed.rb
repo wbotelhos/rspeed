@@ -6,5 +6,6 @@ module RSpeed
 end
 
 require 'rspeed/extension'
+require 'rspeed/observer'
 require 'rspeed/runner'
 require 'rspeed/splitter'

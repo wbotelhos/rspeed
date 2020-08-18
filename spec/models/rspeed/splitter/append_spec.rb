@@ -15,6 +15,11 @@ RSpec.describe RSpeed::Splitter, '#append' do
   end
 
   context 'when files is not given' do
+    before do
+      clean_csv_file
+      populate_csv_file
+    end
+
     it 'read csv and append file and time on rspeed key' do
       splitter.append
 
