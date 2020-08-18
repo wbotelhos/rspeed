@@ -14,26 +14,6 @@ module RSpeed
       end
     end
 
-    def after_suite
-      result = {}
-
-      CSV.read('rspeed.csv').each do |row|
-        spent_time = row[0]
-        file_path  = row[1]
-
-        result[file_path] ||= 0
-        result[file_path] += spent_time.to_f
-      end
-
-      result = result.sort_by { |row| row[1] }.reverse
-
-      truncate_csv_file
-
-      File.open('rspeed.csv', 'a') do |file|
-        result.each { |file_path, spent_time| file.write("#{spent_time},#{file_path}\n") }
-      end
-    end
-
     def before(example)
       example.update_inherited_metadata(start_at: example.clock.now)
     end

@@ -80,7 +80,9 @@ module RSpeed
         json["rspeed_#{index + 1}".to_sym] = { total: 0, files: [], number: index + 1 }
       end
 
-      data.each do |record|
+      sorted_data = data.sort_by { |item| item[:time] }.reverse
+
+      sorted_data.each do |record|
         selected_pipe_data = json.min_by { |pipe| pipe[1][:total] }
         selected_pipe      = json["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
         time               = record[:time].to_f
