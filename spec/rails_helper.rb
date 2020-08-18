@@ -9,15 +9,15 @@ require 'rspec'
 require 'rspeed'
 
 RSpec.configure do |config|
+  config.after do
+    ENV.delete('RSPEED_PIPE')
+    ENV.delete('RSPEED_PIPES')
+  end
+
   config.disable_monkey_patching!
 
   config.order = :random
   config.profile_examples = 10
-
-  config.after do
-    ENV.delete 'RSPEED_PIPE'
-    ENV.delete 'RSPEED_PIPES'
-  end
 end
 
 def redis_object
