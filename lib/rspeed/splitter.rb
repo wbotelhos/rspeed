@@ -101,7 +101,7 @@ module RSpeed
     end
 
     def actual_specs
-      Dir['./spec/**/*_spec.rb']
+      @actual_specs ||= Dir['./spec/**/*_spec.rb']
     end
 
     def added_files
