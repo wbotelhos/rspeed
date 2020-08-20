@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 module RSpeed
   class Splitter
@@ -128,8 +127,8 @@ module RSpeed
       removed_specs.map { |item| item[0].to_f }.sum
     end
 
-    def rspeed_data
-      get('rspeed').map { |item| JSON.parse(item, symbolize_names: true) }
+    def rspeed_data(key = 'rspeed')
+      get(key).map { |item| JSON.parse(item, symbolize_names: true) }
     end
 
     def saved_specs
