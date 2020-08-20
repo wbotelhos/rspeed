@@ -28,7 +28,7 @@ module RSpeed
       @get ||= begin
         return redis.lrange(pattern, 0, -1) if %w[rspeed rspeed_tmp].include?(pattern)
 
-        keys(pattern).map { |key| JSON.parse redis.get(key) }
+        keys(pattern).map { |key| JSON.parse(redis.get(key)) }
       end
     end
 
@@ -129,7 +129,7 @@ module RSpeed
     end
 
     def rspeed_data
-      get('rspeed').map { |item| JSON.parse item, symbolize_names: true }
+      get('rspeed').map { |item| JSON.parse(item, symbolize_names: true) }
     end
 
     def saved_specs
