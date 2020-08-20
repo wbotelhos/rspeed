@@ -132,7 +132,7 @@ module RSpeed
     end
 
     def rspeed_data(key = 'rspeed')
-      get(key).map { |item| JSON.parse(item, symbolize_names: true) }
+      @rspeed_data ||= get(key).map { |item| JSON.parse(item, symbolize_names: true) }
     end
   end
 end
