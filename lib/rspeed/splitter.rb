@@ -14,7 +14,7 @@ module RSpeed
     end
 
     def diff
-      (actual_files + added_files).sort_by { |item| item[:time].to_f }.map do |item|
+      (actual_data + added_data).sort_by { |item| item[:time].to_f }.map do |item|
         [item[:time], item[:file]]
       end
     end
@@ -95,24 +95,28 @@ module RSpeed
 
     private
 
+    def actual_data
+      rspeed_data.select { |item| actual_files.include?(item[:file]) }
+    end
+
     def actual_files
-      rspeed_data.select { |item| actual_specs.include?(item[:file]) }
+      @actual_files ||= Dir['./spec/**/*_spec.rb']
     end
 
-    def actual_specs
-      @actual_specs ||= Dir['./spec/**/*_spec.rb']
-    end
-
-    def added_files
+    def added_data
       added_specs.map { |item| { file: item, time: 0 } }
     end
 
     def added_specs
-      actual_specs - saved_specs
+      actual_files - old_files
     end
 
     def file_data
       CSV.read('rspeed.csv')
+    end
+
+    def old_files
+      rspeed_data.map { |item| item[:file] }
     end
 
     def redis
@@ -120,7 +124,7 @@ module RSpeed
     end
 
     def removed_specs
-      saved_specs - actual_specs
+      old_files - actual_files
     end
 
     def removed_time
@@ -129,10 +133,6 @@ module RSpeed
 
     def rspeed_data(key = 'rspeed')
       get(key).map { |item| JSON.parse(item, symbolize_names: true) }
-    end
-
-    def saved_specs
-      rspeed_data.map { |item| item[:file] }
     end
   end
 end
