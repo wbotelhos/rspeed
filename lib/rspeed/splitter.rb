@@ -131,8 +131,8 @@ module RSpeed
       removed_specs.map { |item| item[0].to_f }.sum
     end
 
-    def rspeed_data(key = 'rspeed')
-      @rspeed_data ||= get(key).map { |item| JSON.parse(item, symbolize_names: true) }
+    def rspeed_data
+      @rspeed_data ||= get('rspeed').map { |item| JSON.parse(item, symbolize_names: true) }
     end
   end
 end
