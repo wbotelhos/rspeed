@@ -14,7 +14,7 @@ module RSpeed
     end
 
     def diff
-      (actual_data + added_data).map { |item| [item[:time], item[:file]] }
+      actual_data + added_data
     end
 
     def first_pipe?
@@ -63,7 +63,7 @@ module RSpeed
       !keys('rspeed').empty?
     end
 
-    def save(data = rspeed_data)
+    def save(data = diff)
       split(data).each { |key, value| redis.set(key, value.to_json) }
     end
 

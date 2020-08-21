@@ -10,19 +10,21 @@ RSpec.describe RSpeed::Splitter, '.save' do
   before do
     allow(splitter).to receive(:pipes).and_return(3)
 
-    redis.lpush 'rspeed', { file: "./spec/0_2_spec.rb", time: '0.2' }.to_json
-    redis.lpush 'rspeed', { file: "./spec/0_3_spec.rb", time: '0.3' }.to_json
-    redis.lpush 'rspeed', { file: "./spec/0_4_spec.rb", time: '0.4' }.to_json
-    redis.lpush 'rspeed', { file: "./spec/0_7_spec.rb", time: '0.7' }.to_json
-    redis.lpush 'rspeed', { file: "./spec/1_1_spec.rb", time: '1.1' }.to_json
-    redis.lpush 'rspeed', { file: "./spec/1_5_spec.rb", time: '1.5' }.to_json
-    redis.lpush 'rspeed', { file: "./spec/2_0_spec.rb", time: '2.0' }.to_json
+    allow(splitter).to receive(:diff).and_return([
+      { file: "./spec/0_2_spec.rb", time: '0.2' },
+      { file: "./spec/0_3_spec.rb", time: '0.3' },
+      { file: "./spec/0_4_spec.rb", time: '0.4' },
+      { file: "./spec/0_7_spec.rb", time: '0.7' },
+      { file: "./spec/1_1_spec.rb", time: '1.1' },
+      { file: "./spec/1_5_spec.rb", time: '1.5' },
+      { file: "./spec/2_0_spec.rb", time: '2.0' },
+    ])
   end
 
   it 'saves the data on redis' do
     splitter.save
 
-    expect(redis.keys('*')).to eq %w[rspeed rspeed_1 rspeed_2 rspeed_3]
+    expect(redis.keys('*')).to eq %w[rspeed_1 rspeed_2 rspeed_3]
 
     expect(JSON.parse(redis.get('rspeed_1'), symbolize_names: true)).to eq(
       files: [{ file: './spec/2_0_spec.rb', time: 2.0 }],
