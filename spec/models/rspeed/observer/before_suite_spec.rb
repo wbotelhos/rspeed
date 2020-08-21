@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe RSpeed::Observer, '.before_suite' do
-  before { clean_csv_file }
+  before { truncate_file }
 
   it 'cleans the csv file' do
     File.open('rspeed.csv', 'a') { |file| file.write('content') }

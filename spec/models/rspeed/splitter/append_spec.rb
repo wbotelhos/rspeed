@@ -16,7 +16,7 @@ RSpec.describe RSpeed::Splitter, '#append' do
 
   context 'when files is not given' do
     before do
-      clean_csv_file
+      truncate_file
       populate_csv_file
     end
 

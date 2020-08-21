@@ -8,7 +8,7 @@ RSpec.describe RSpeed::Observer, '.after' do
   let!(:metadata) { { file_path: 'file_path', line_number: 7, start_at: now - 1 } }
   let!(:example) { instance_double(RSpec::Core::Example, clock: clock, metadata: metadata) }
 
-  before { clean_csv_file }
+  before { truncate_file }
 
   it 'appends the time of example on csv file' do
     described_class.after(example)

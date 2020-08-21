@@ -20,8 +20,12 @@ RSpec.configure do |config|
   config.profile_examples = 10
 end
 
-def clean_csv_file
-  File.open('rspeed.csv', 'w') { |file| file.truncate(0) }
+def delete_file(file_path = 'rspeed.csv')
+  File.delete(file_path) if File.exist?(file_path)
+end
+
+def truncate_file(file_path = 'rspeed.csv')
+  File.open(file_path, 'w') { |file| file.truncate(0) }
 end
 
 def populate_csv_file

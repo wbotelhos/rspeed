@@ -1,12 +1,17 @@
+# frozen_string_literal: true
 
 module RSpeed
   class Splitter
     DEFAULT_PATTERN = 'rspeed_*'
 
-    def actual_examples(path = './spec/**/*_spec.rb')
+    def initialize(specs_path: './spec/**/*_spec.rb')
+      @specs_path = specs_path
+    end
+
+    def actual_examples
       @actual_examples ||= begin
         [].tap do |examples|
-          Dir[path].each do |file|
+          Dir[@specs_path].each do |file|
             data     = File.open(file).read
             lines    = data.split("\n")
 
@@ -109,7 +114,7 @@ module RSpeed
     private
 
     def actual_data
-      rspeed_data.select { |item| actual_examples.include?(item[:file].sub(/:\d+/, '')) }
+      rspeed_data.select { |item| actual_examples.include?(item[:file]) }
     end
 
     def added_data
@@ -117,10 +122,10 @@ module RSpeed
     end
 
     def added_specs
-      actual_examples - old_files
+      actual_examples - old_examples
     end
 
-    def old_files
+    def old_examples
       rspeed_data.map { |item| item[:file] }
     end
 
@@ -128,12 +133,12 @@ module RSpeed
       @redis ||= ::Redis.new(db: ENV['RSPEED_DB'], host: ENV['RSPEED_HOST'], port: ENV.fetch('RSPEED_PORT') { 6379 })
     end
 
-    def removed_specs
-      old_files - actual_examples
+    def removed_examples
+      old_examples - actual_examples
     end
 
     def removed_time
-      removed_specs.map { |item| item[0].to_f }.sum
+      removed_examples.map { |item| item[0].to_f }.sum
     end
 
     def rspeed_data
