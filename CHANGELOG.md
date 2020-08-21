@@ -1,3 +1,7 @@
+## v0.3.0
+
+- Removed and added files now is considered on run;
+
 ## v0.2.0
 
 - Splits specs by examples over files;
