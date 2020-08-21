@@ -3,7 +3,24 @@ module RSpeed
   class Splitter
     DEFAULT_PATTERN = 'rspeed_*'
 
-    def append(files = file_data)
+    def actual_examples(path = './spec/**/*_spec.rb')
+      @actual_examples ||= begin
+        [].tap do |examples|
+          Dir[path].each do |file|
+            data     = File.open(file).read
+            lines    = data.split("\n")
+
+            lines&.each.with_index do |item, index|
+              examples << "#{file}:#{index + 1}" if item.gsub(/\s+/, '') =~ /^it/
+            end
+
+            examples
+          end
+        end
+      end
+    end
+
+    def append(files = CSV.read('rspeed.csv'))
       files.each do |time, file|
         redis.lpush('rspeed_tmp', { file: file, time: time.to_f }.to_json)
       end
@@ -92,11 +109,7 @@ module RSpeed
     private
 
     def actual_data
-      rspeed_data.select { |item| actual_files.include?(item[:file]) }
-    end
-
-    def actual_files
-      @actual_files ||= Dir['./spec/**/*_spec.rb']
+      rspeed_data.select { |item| actual_examples.include?(item[:file].sub(/:\d+/, '')) }
     end
 
     def added_data
@@ -104,11 +117,7 @@ module RSpeed
     end
 
     def added_specs
-      actual_files - old_files
-    end
-
-    def file_data
-      CSV.read('rspeed.csv')
+      actual_examples - old_files
     end
 
     def old_files
@@ -120,7 +129,7 @@ module RSpeed
     end
 
     def removed_specs
-      old_files - actual_files
+      old_files - actual_examples
     end
 
     def removed_time
