@@ -5,7 +5,7 @@ module RSpeed
 
     def append(files = file_data)
       files.each do |time, file|
-        redis.lpush 'rspeed_tmp', { file: file, time: time.to_f }.to_json
+        redis.lpush('rspeed_tmp', { file: file, time: time.to_f }.to_json)
       end
     end
 
@@ -58,7 +58,7 @@ module RSpeed
     end
 
     def rename
-      redis.rename 'rspeed_tmp', 'rspeed'
+      redis.rename('rspeed_tmp', 'rspeed')
     end
 
     def result?
@@ -66,9 +66,7 @@ module RSpeed
     end
 
     def save(data = rspeed_data)
-      split(data).each do |key, value|
-        redis.set key, value.to_json
-      end
+      split(data).each { |key, value| redis.set(key, value.to_json) }
     end
 
     def split(data)
