@@ -18,9 +18,9 @@ module RSpeed
             lines&.each.with_index do |item, index|
               examples << "#{file}:#{index + 1}" if item.gsub(/\s+/, '') =~ /^it/
             end
-
-            examples
           end
+
+          stream(:actual_examples, examples)
         end
       end
     end
@@ -36,6 +36,11 @@ module RSpeed
     end
 
     def diff
+      actual_data = rspeed_data.select { |item| actual_examples.include?(item[:file]) }
+      added_data  = added_examples.map { |item| { file: item, time: 0 } }
+
+      removed_examples # called just for stream for now
+
       actual_data + added_data
     end
 
@@ -113,20 +118,10 @@ module RSpeed
 
     private
 
-    def actual_data
-      rspeed_data.select { |item| actual_examples.include?(item[:file]) }
-    end
-
-    def added_data
-      added_specs.map { |item| { file: item, time: 0 } }
-    end
-
-    def added_specs
-      actual_examples - old_examples
-    end
-
-    def old_examples
-      rspeed_data.map { |item| item[:file] }
+    def added_examples
+      @added_examples ||= begin
+        (actual_examples - rspeed_examples).tap { |examples| stream(:added_examples, examples) }
+      end
     end
 
     def redis
@@ -134,7 +129,9 @@ module RSpeed
     end
 
     def removed_examples
-      old_examples - actual_examples
+      @removed_examples ||= begin
+        (rspeed_examples - actual_examples).tap { |examples| stream(:removed_examples, examples) }
+      end
     end
 
     def removed_time
@@ -143,6 +140,14 @@ module RSpeed
 
     def rspeed_data
       @rspeed_data ||= get('rspeed').map { |item| JSON.parse(item, symbolize_names: true) }
+    end
+
+    def rspeed_examples
+      rspeed_data.map { |item| item[:file] }
+    end
+
+    def stream(type, data)
+      puts "PIPE: #{pipe} with #{type}: #{data}"
     end
   end
 end
