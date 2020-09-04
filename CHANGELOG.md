@@ -1,3 +1,7 @@
+## master
+
+- The first pipe no more saves a key with specs for each pipe. Now each pipe calculate it's files via `rspeed` key content;
+
 ## v0.4.0
 
 - Now we make diff to discover removed and added examples;
