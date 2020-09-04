@@ -78,6 +78,14 @@ module RSpeed
       ENV.fetch('RSPEED_PIPE') { 1 }.to_i
     end
 
+    def pipe_files
+      return unless result?
+
+      save if first_pipe?
+
+      get("rspeed_#{pipe}")[0]['files'].map { |item| item['file'] }.join(' ')
+    end
+
     def pipes
       result? ? ENV.fetch('RSPEED_PIPES') { 1 }.to_i : 1
     end
