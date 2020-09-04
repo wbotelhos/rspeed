@@ -10,6 +10,8 @@ require 'rspeed'
 
 RSpec.configure do |config|
   config.after do
+    ENV.delete('RESPEED_RESULT_KEY')
+    ENV.delete('RESPEED_TMP_KEY')
     ENV.delete('RSPEED_PIPE')
     ENV.delete('RSPEED_PIPES')
   end

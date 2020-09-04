@@ -27,7 +27,7 @@ module RSpeed
 
     def append(files = CSV.read('rspeed.csv'))
       files.each do |time, file|
-        redis.lpush('rspeed_tmp', { file: file, time: time.to_f }.to_json)
+        redis.lpush(tmp_key, { file: file, time: time.to_f }.to_json)
       end
     end
 
@@ -90,12 +90,20 @@ module RSpeed
       result? ? ENV.fetch('RSPEED_PIPES') { 1 }.to_i : 1
     end
 
+    def redundant_run?
+      !first_pipe? && !exists?(result_key)
+    end
+
     def rename
-      redis.rename('rspeed_tmp', 'rspeed')
+      redis.rename(tmp_key, result_key)
     end
 
     def result?
-      !keys('rspeed').empty?
+      !keys(result_key).empty?
+    end
+
+    def result_key
+      ENV.fetch('RESPEED_RESULT_KEY', 'rspeed')
     end
 
     def save(data = diff)
@@ -124,12 +132,21 @@ module RSpeed
       json
     end
 
+    def tmp_key
+      ENV.fetch('RESPEED_TMP_KEY', 'rspeed_tmp')
+    end
+
     private
 
     def added_examples
       @added_examples ||= begin
         (actual_examples - rspeed_examples).tap { |examples| stream(:added_examples, examples) }
       end
+    end
+
+    # TODO: exists? does not work: undefined method `>' for false:FalseClass
+    def exists?(key)
+      redis.keys.include?(key)
     end
 
     def redis
@@ -147,7 +164,7 @@ module RSpeed
     end
 
     def rspeed_data
-      @rspeed_data ||= get('rspeed').map { |item| JSON.parse(item, symbolize_names: true) }
+      @rspeed_data ||= get(result_key).map { |item| JSON.parse(item, symbolize_names: true) }
     end
 
     def rspeed_examples
