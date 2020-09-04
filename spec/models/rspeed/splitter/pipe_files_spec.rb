@@ -18,31 +18,13 @@ RSpec.describe RSpeed::Splitter, '#pipe_files' do
     before do
       allow(splitter).to receive(:result?).and_return(true)
 
-      allow(splitter).to receive(:get)
-        .with('rspeed_1')
-        .and_return([{ 'files' => [{ 'file' => 'spec_1.rb' }, { 'file' => 'spec_2.rb' }] }])
+      allow(splitter).to receive(:split).and_return(rspeed_1: { files: [{ file: 'spec_1.rb' }, { file: 'spec_2.rb' }] })
     end
 
-    context 'when is the first pipe' do
-      before { allow(splitter).to receive(:first_pipe?).and_return(true) }
+    it 'returns the splitted pipe files' do
+      allow(splitter).to receive(:save)
 
-      it 'saves the split and returns the pipe files' do
-        allow(splitter).to receive(:save)
-
-        expect(splitter.pipe_files).to eq 'spec_1.rb spec_2.rb'
-
-        expect(splitter).to have_received(:save)
-      end
-    end
-
-    context 'when is not the first pipe' do
-      before { allow(splitter).to receive(:first_pipe?).and_return(false) }
-
-      it 'returns the pipe files' do
-        allow(splitter).to receive(:save)
-
-        expect(splitter.pipe_files).to eq 'spec_1.rb spec_2.rb'
-      end
+      expect(splitter.pipe_files).to eq 'spec_1.rb spec_2.rb'
     end
   end
 end

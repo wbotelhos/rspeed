@@ -81,9 +81,7 @@ module RSpeed
     def pipe_files
       return unless result?
 
-      save if first_pipe?
-
-      get("rspeed_#{pipe}")[0]['files'].map { |item| item['file'] }.join(' ')
+      split[:"rspeed_#{pipe}"][:files].map { |item| item[:file] }.join(' ')
     end
 
     def pipes
@@ -106,11 +104,7 @@ module RSpeed
       ENV.fetch('RESPEED_RESULT_KEY', 'rspeed')
     end
 
-    def save(data = diff)
-      split(data).each { |key, value| redis.set(key, value.to_json) }
-    end
-
-    def split(data)
+    def split(data = diff)
       json = {}
 
       pipes.times do |index|
