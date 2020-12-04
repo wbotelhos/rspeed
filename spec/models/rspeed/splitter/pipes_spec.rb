@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-
-
 RSpec.describe RSpeed::Splitter, '#pipes' do
   subject(:splitter) { described_class.new }
 

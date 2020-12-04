@@ -4,7 +4,7 @@ RSpec.describe RSpeed::Splitter, '#pipe_files' do
   let!(:shell) { double('shell') }
   let!(:splitter) { described_class.new }
 
-  before { allow(splitter).to receive(:pipe).and_return(1) }
+  before { allow(RSpeed::Value).to receive(:pipe).and_return(1) }
 
   context 'when has no result' do
     before { allow(splitter).to receive(:result?).and_return(false) }

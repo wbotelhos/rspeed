@@ -25,7 +25,7 @@ module RSpeed
 
     def append(files = CSV.read(RSpeed::Variable::CSV))
       files.each do |time, file|
-        redis.lpush(tmp_key, { file: file, time: time.to_f }.to_json)
+        redis.lpush(RSpeed::Value.tmp_key, { file: file, time: time.to_f }.to_json)
       end
     end
 
@@ -43,7 +43,7 @@ module RSpeed
     end
 
     def first_pipe?
-      pipe == 1
+      RSpeed::Value.pipe == 1
     end
 
     def get(pattern)
@@ -69,37 +69,29 @@ module RSpeed
     end
 
     def last_pipe?
-      pipe == pipes
-    end
-
-    def pipe
-      ENV.fetch('RSPEED_PIPE') { 1 }.to_i
+      RSpeed::Value.pipe == pipes
     end
 
     def pipe_files
       return unless result?
 
-      split[RSpeed::Variable.key(pipe)][:files].map { |item| item[:file] }.join(' ')
+      split[RSpeed::Variable.key(RSpeed::Value.pipe)][:files].map { |item| item[:file] }.join(' ')
     end
 
     def pipes
-      result? ? ENV.fetch('RSPEED_PIPES') { 1 }.to_i : 1
+      RSpeed::Value.pipes(result?)
     end
 
     def redundant_run?
-      !first_pipe? && !exists?(result_key)
+      !first_pipe? && !exists?(RSpeed::Value.result_key)
     end
 
     def rename
-      redis.rename(tmp_key, result_key)
+      redis.rename(RSpeed::Value.tmp_key, RSpeed::Value.result_key)
     end
 
     def result?
-      !keys(result_key).empty?
-    end
-
-    def result_key
-      ENV.fetch('RESPEED_RESULT_KEY', RSpeed::Variable.result)
+      !keys(RSpeed::Value.result_key).empty?
     end
 
     def split(data = diff)
@@ -122,10 +114,6 @@ module RSpeed
       end
 
       json
-    end
-
-    def tmp_key
-      ENV.fetch('RESPEED_TMP_KEY', RSpeed::Variable.tmp)
     end
 
     private
@@ -156,7 +144,7 @@ module RSpeed
     end
 
     def rspeed_data
-      @rspeed_data ||= get(result_key).map { |item| JSON.parse(item, symbolize_names: true) }
+      @rspeed_data ||= get(RSpeed::Value.result_key).map { |item| JSON.parse(item, symbolize_names: true) }
     end
 
     def rspeed_examples
@@ -164,7 +152,7 @@ module RSpeed
     end
 
     def stream(type, data)
-      puts "PIPE: #{pipe} with #{type}: #{data}"
+      puts "PIPE: #{RSpeed::Value.pipe} with #{type}: #{data}"
     end
   end
 end

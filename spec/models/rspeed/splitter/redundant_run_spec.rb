@@ -6,7 +6,7 @@ RSpec.describe RSpeed::Splitter, '.redundant_run?' do
   subject(:splitter) { described_class.new }
 
   context 'when is not pipe 1' do
-    before { allow(splitter).to receive(:pipe).and_return(2) }
+    before { allow(RSpeed::Value).to receive(:pipe).and_return(2) }
 
     context 'when result key exists' do
       let!(:redis) { redis_object }
@@ -14,7 +14,7 @@ RSpec.describe RSpeed::Splitter, '.redundant_run?' do
       before do
         redis.set('rspeed', '{}')
 
-        allow(splitter).to receive(:pipe).and_return(2)
+        allow(RSpeed::Value).to receive(:pipe).and_return(2)
       end
 
       it { expect(splitter.redundant_run?).to be(false) }
@@ -26,7 +26,7 @@ RSpec.describe RSpeed::Splitter, '.redundant_run?' do
   end
 
   context 'when is the first pipe' do
-    before { allow(splitter).to receive(:pipe).and_return(1) }
+    before { allow(RSpeed::Value).to receive(:pipe).and_return(1) }
 
     context 'when result key exists' do
       let!(:redis) { redis_object }
@@ -34,7 +34,7 @@ RSpec.describe RSpeed::Splitter, '.redundant_run?' do
       before do
         redis.set('rspeed', '{}')
 
-        allow(splitter).to receive(:pipe).and_return(2)
+        allow(RSpeed::Value).to receive(:pipe).and_return(2)
       end
 
       it { expect(splitter.redundant_run?).to be(false) }
