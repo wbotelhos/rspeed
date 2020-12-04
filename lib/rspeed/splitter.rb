@@ -9,7 +9,7 @@ module RSpeed
     def actual_examples
       @actual_examples ||= begin
         [].tap do |examples|
-          Dir[@specs_path].each do |file|
+          Dir[@specs_path].sort.each do |file|
             data     = File.open(file).read
             lines    = data.split("\n")
 
