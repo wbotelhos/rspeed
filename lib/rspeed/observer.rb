@@ -9,8 +9,8 @@ module RSpeed
       line_number = example.metadata[:line_number]
       spent_time  = example.clock.now - example.metadata[:start_at]
 
-      File.open('rspeed.csv', 'a') do |file|
-        file.write "#{spent_time},#{file_path}:#{line_number}\n"
+      File.open(RSpeed::Variable::CSV, 'a') do |file|
+        file.write("#{spent_time},#{file_path}:#{line_number}\n")
       end
     end
 
@@ -23,7 +23,7 @@ module RSpeed
     end
 
     def truncate_csv_file
-      File.open('rspeed.csv', 'w') { |file| file.truncate(0) }
+      File.open(RSpeed::Variable::CSV, 'w') { |file| file.truncate(0) }
     end
   end
 end

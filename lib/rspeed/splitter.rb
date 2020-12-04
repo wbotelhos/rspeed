@@ -2,8 +2,6 @@
 
 module RSpeed
   class Splitter
-    DEFAULT_PATTERN = 'rspeed_*'
-
     def initialize(specs_path: './spec/**/*_spec.rb')
       @specs_path = specs_path
     end
@@ -25,13 +23,13 @@ module RSpeed
       end
     end
 
-    def append(files = CSV.read('rspeed.csv'))
+    def append(files = CSV.read(RSpeed::Variable::CSV))
       files.each do |time, file|
         redis.lpush(tmp_key, { file: file, time: time.to_f }.to_json)
       end
     end
 
-    def destroy(pattern = DEFAULT_PATTERN)
+    def destroy(pattern = RSpeed::Variable::DEFAULT_PATTERN)
       keys(pattern).each { |key| redis.del key }
     end
 
@@ -50,13 +48,13 @@ module RSpeed
 
     def get(pattern)
       @get ||= begin
-        return redis.lrange(pattern, 0, -1) if %w[rspeed rspeed_tmp].include?(pattern)
+        return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result, RSpeed::Variable.tmp].include?(pattern)
 
         keys(pattern).map { |key| JSON.parse(redis.get(key)) }
       end
     end
 
-    def keys(pattern = DEFAULT_PATTERN)
+    def keys(pattern = RSpeed::Variable::DEFAULT_PATTERN)
       cursor = 0
       result = []
 
@@ -101,7 +99,7 @@ module RSpeed
     end
 
     def result_key
-      ENV.fetch('RESPEED_RESULT_KEY', 'rspeed')
+      ENV.fetch('RESPEED_RESULT_KEY', RSpeed::Variable.result)
     end
 
     def split(data = diff)
@@ -127,7 +125,7 @@ module RSpeed
     end
 
     def tmp_key
-      ENV.fetch('RESPEED_TMP_KEY', 'rspeed_tmp')
+      ENV.fetch('RESPEED_TMP_KEY', RSpeed::Variable.tmp)
     end
 
     private
