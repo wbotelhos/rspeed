@@ -23,5 +23,5 @@ def populate_csv_file
 end
 
 def redis_object
-  @redis_object ||= Redis.new(db: ENV['RSPEED_DB'], host: ENV['RSPEED_HOST'])
+  @redis_object ||= Redis.new(db: RSpeed::Env.db, host: RSpeed::Env.host)
 end

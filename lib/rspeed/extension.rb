@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if ENV['RSPEED'] == 'true'
+if RSpeed::Env.rspeed
   require 'rspec'
 
   RSpec.configure do |config|
