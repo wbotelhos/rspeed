@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rspec'
 
   spec.add_development_dependency 'codecov'
+  spec.add_development_dependency 'env_mock'
   spec.add_development_dependency 'fakeredis'
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rake'
