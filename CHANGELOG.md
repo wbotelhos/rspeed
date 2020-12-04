@@ -1,6 +1,7 @@
 ## master
 
 - The first pipe no more saves a key with specs for each pipe. Now each pipe calculate it's files via `rspeed` key content;
+- Add env `RSPEED_NAME` to be possible set your app name and avoid override;
 
 ## v0.4.0
 

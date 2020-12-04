@@ -26,11 +26,12 @@ rake rspeed:install
 
 ## Usage
 
-- `RSPEED`: Enables RSpeed
-- `RSPEED_PIPES`: Quantity of pipes
+- `RSPEED_NAME`: You app name to avoid data override
 - `RSPEED_PIPE`: Current pipe
-- `RESPEED_TMP_KEY`: The temporary key that keeps the partial result of the pipes
-- `RESPEED_RESULT_KEY`: The key that keeps the final result of all pipes
+- `RSPEED_PIPES`: Quantity of pipes
+- `RSPEED_RESULT_KEY`: The key that keeps the final result of all pipes
+- `RSPEED_TMP_KEY`: The temporary key that keeps the partial result of the pipes
+- `RSPEED`: Enables RSpeed
 
 ```sh
 RSPEED=true RSPEED_PIPES=3 RSPEED_PIPE=1 bundle exec rake rspeed:run
