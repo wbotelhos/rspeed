@@ -20,8 +20,6 @@ RSpec.describe RSpeed::Splitter, '#pipe_files' do
     end
 
     it 'returns the splitted pipe files' do
-      allow(splitter).to receive(:save)
-
       expect(splitter.pipe_files).to eq 'spec_1.rb spec_2.rb'
     end
   end
