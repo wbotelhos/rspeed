@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+
 
 RSpec.describe RSpeed::Splitter, '.first_pipe?' do
   subject(:splitter) { described_class.new }

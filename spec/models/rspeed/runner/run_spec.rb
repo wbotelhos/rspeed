@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 RSpec.describe RSpeed::Runner, '#run' do
   let!(:shell) { double('shell') }
   let!(:splitter) { instance_double('RSpeed::Splitter') }

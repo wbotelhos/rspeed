@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 RSpec.describe RSpeed::Observer, '.before' do
   let!(:now) { Time.local(2020) }
   let!(:clock) { class_double(RSpec::Core::Time, now: now) }

@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-ENV['RAILS_ENV'] ||= 'test'
-
-require 'fakeredis/rspec'
-require 'json'
-require 'pry-byebug'
-require 'rspec'
-require 'rspeed'
-
 RSpec.configure do |config|
   config.after do
     ENV.delete('RESPEED_RESULT_KEY')
@@ -15,11 +7,6 @@ RSpec.configure do |config|
     ENV.delete('RSPEED_PIPE')
     ENV.delete('RSPEED_PIPES')
   end
-
-  config.disable_monkey_patching!
-
-  config.order = :random
-  config.profile_examples = 10
 end
 
 def delete_file(file_path = 'rspeed.csv')

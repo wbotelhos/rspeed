@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require 'json'
+require 'support/fakeredis'
 
 RSpec.describe RSpeed::Splitter, '#diff' do
   subject(:splitter) { described_class.new(specs_path: './spec/fixtures/*_spec.rb') }

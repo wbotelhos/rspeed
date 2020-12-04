@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 RSpec.describe RSpeed::Splitter, '#pipe_files' do
   let!(:shell) { double('shell') }
   let!(:splitter) { described_class.new }
