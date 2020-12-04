@@ -1,9 +1,10 @@
 # RSpeed
 
-[![Build Status](https://github.com/wbotelhos/rspeed/workflows/CI/badge.svg)](https://github.com/wbotelhos/rspeed/actions)
+[![CI](https://github.com/wbotelhos/rspeed/workflows/CI/badge.svg)](https://github.com/wbotelhos/rspeed/actions)
 [![Gem Version](https://badge.fury.io/rb/rspeed.svg)](https://badge.fury.io/rb/rspeed)
-[![Maintainability](https://api.codeclimate.com/v1/badges/cc5efe8b06bc1d5e9e8a/maintainability)](https://codeclimate.com/github/wbotelhos/rspeed/maintainability)
-[![Patreon](https://img.shields.io/badge/donate-%3C3-brightgreen.svg)](https://www.patreon.com/wbotelhos)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f312587b4f126bb13e85/maintainability)](https://codeclimate.com/github/wbotelhos/rspeed/maintainability)
+[![Coverage](https://codecov.io/gh/wbotelhos/rspeed/branch/main/graph/badge.svg)](https://codecov.io/gh/wbotelhos/rspeed)
+[![Sponsor](https://img.shields.io/badge/sponsor-%3C3-green)](https://www.patreon.com/wbotelhos)
 
 RSpeed splits your specs to you run parallels tests.
 
@@ -28,7 +29,7 @@ rake rspeed:install
 - `RSPEED`: Enables RSpeed
 - `RSPEED_PIPES`: Quantity of pipes
 - `RSPEED_PIPE`: Current pipe
-- `RESPEED_TMP_KEY`: The temporary keep that keeps the partial pipes result
+- `RESPEED_TMP_KEY`: The temporary key that keeps the partial result of the pipes
 - `RESPEED_RESULT_KEY`: The key that keeps the final result of all pipes
 
 ```sh
@@ -39,7 +40,7 @@ RSPEED=true RSPEED_PIPES=3 RSPEED_PIPE=1 bundle exec rake rspeed:run
 
 ### First run
 
-1. Since we has no statistics on the first time, we run all specs and collect it;
+1. Since we have no statistics on the first time, we run all specs and collect it;
 
 ```json
 { "file": "./spec/models/1_spec.rb", "time": 0.01 }
