@@ -2,5 +2,6 @@
 .DS_Store
 *.gem
 /.bundle
+/coverage
 /rspeed.csv
 /vendor/*
