@@ -30,7 +30,7 @@ module RSpeed
     end
 
     def destroy(pattern = RSpeed::Variable::DEFAULT_PATTERN)
-      keys(pattern).each { |key| redis.del key }
+      keys(pattern).each { |key| redis.del(key) }
     end
 
     def diff
