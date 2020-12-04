@@ -23,5 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'fakeredis'
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rubocop-performance'
+  spec.add_development_dependency 'rubocop-rails'
   spec.add_development_dependency 'rubocop-rspec'
 end
