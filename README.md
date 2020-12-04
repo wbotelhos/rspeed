@@ -34,7 +34,7 @@ rake rspeed:install
 - `RSPEED`: Enables RSpeed
 
 ```sh
-RSPEED=true RSPEED_PIPES=3 RSPEED_PIPE=1 bundle exec rake rspeed:run
+RSPEED=true RSPEED_NAME=authorizy RSPEED_PIPE=1 RSPEED_PIPES=3 bundle exec rake rspeed:run
 ```
 
 ## How it Works
