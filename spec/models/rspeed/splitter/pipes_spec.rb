@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'support/env_mock'
+
 RSpec.describe RSpeed::Splitter, '#pipes' do
   subject(:splitter) { described_class.new }
 
@@ -7,19 +9,17 @@ RSpec.describe RSpeed::Splitter, '#pipes' do
     before { allow(splitter).to receive(:result?).and_return(false) }
 
     it 'the number of pipes is adjusted to one' do
-      expect(splitter.pipes).to eq 1
+      expect(splitter.pipes).to be(1)
     end
   end
 
   context 'when has result' do
-    before do
-      allow(splitter).to receive(:result?).and_return(true)
-
-      ENV['RSPEED_PIPES'] = '2'
-    end
+    before { allow(splitter).to receive(:result?).and_return(true) }
 
     it 'is used the given value on env' do
-      expect(splitter.pipes).to eq 2
+      EnvMock.mock(rspeed_pipes: '2') do
+        expect(splitter.pipes).to be(2)
+      end
     end
   end
 end
