@@ -17,4 +17,10 @@ RSpec.describe RSpeed::Splitter, '#actual_examples' do
 
     expect(splitter.actual_examples).to eq []
   end
+
+  it 'does not raise when file is empty' do
+    splitter = described_class.new(specs_path: 'spec/fixtures/**/empty.rb')
+
+    expect(splitter.actual_examples).to eq []
+  end
 end

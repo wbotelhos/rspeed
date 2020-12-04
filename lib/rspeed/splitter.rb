@@ -13,7 +13,7 @@ module RSpeed
             data     = File.open(file).read
             lines    = data.split("\n")
 
-            lines&.each.with_index do |item, index|
+            lines&.each&.with_index do |item, index|
               examples << "#{file}:#{index + 1}" if /^it/.match?(item.gsub(/\s+/, ''))
             end
           end
