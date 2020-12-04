@@ -2,7 +2,7 @@
 
 require 'support/env_mock'
 
-RSpec.describe RSpeed::Value, '.name' do
+RSpec.describe RSpeed::Env, '.name' do
   context 'when env is given' do
     it 'returns the env value' do
       EnvMock.mock(rspeed_name: 'name') do

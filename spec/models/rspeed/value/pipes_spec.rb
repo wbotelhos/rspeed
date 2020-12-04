@@ -2,7 +2,7 @@
 
 require 'support/env_mock'
 
-RSpec.describe RSpeed::Value, '.pipes' do
+RSpec.describe RSpeed::Env, '.pipes' do
   context 'when result is false' do
     context 'when env is setted' do
       it 'returns number 1' do

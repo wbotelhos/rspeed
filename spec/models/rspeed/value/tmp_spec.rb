@@ -2,7 +2,7 @@
 
 require 'support/env_mock'
 
-RSpec.describe RSpeed::Value, '.tmp_key' do
+RSpec.describe RSpeed::Env, '.tmp_key' do
   context 'when key is not setted on env' do
     it 'returns default value' do
       expect(described_class.tmp_key).to eq 'rspeed_tmp'

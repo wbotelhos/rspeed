@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module RSpeed
-  module Value
+  module Env
     module_function
 
     def name

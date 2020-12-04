@@ -2,7 +2,7 @@
 
 require 'support/env_mock'
 
-RSpec.describe RSpeed::Value, '.result_key' do
+RSpec.describe RSpeed::Env, '.result_key' do
   context 'when key is not setted on env' do
     it 'returns default value' do
       expect(described_class.result_key).to eq 'rspeed'

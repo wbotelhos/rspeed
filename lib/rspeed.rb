@@ -5,9 +5,9 @@ module RSpeed
   require 'redis'
 end
 
+require 'rspeed/env'
 require 'rspeed/extension'
 require 'rspeed/observer'
 require 'rspeed/runner'
 require 'rspeed/splitter'
-require 'rspeed/value'
 require 'rspeed/variable'

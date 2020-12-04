@@ -25,7 +25,7 @@ module RSpeed
 
     def append(files = CSV.read(RSpeed::Variable::CSV))
       files.each do |time, file|
-        redis.lpush(RSpeed::Value.tmp_key, { file: file, time: time.to_f }.to_json)
+        redis.lpush(RSpeed::Env.tmp_key, { file: file, time: time.to_f }.to_json)
       end
     end
 
@@ -43,7 +43,7 @@ module RSpeed
     end
 
     def first_pipe?
-      RSpeed::Value.pipe == 1
+      RSpeed::Env.pipe == 1
     end
 
     def get(pattern)
@@ -69,29 +69,29 @@ module RSpeed
     end
 
     def last_pipe?
-      RSpeed::Value.pipe == pipes
+      RSpeed::Env.pipe == pipes
     end
 
     def pipe_files
       return unless result?
 
-      split[RSpeed::Variable.key(RSpeed::Value.pipe)][:files].map { |item| item[:file] }.join(' ')
+      split[RSpeed::Variable.key(RSpeed::Env.pipe)][:files].map { |item| item[:file] }.join(' ')
     end
 
     def pipes
-      RSpeed::Value.pipes(result?)
+      RSpeed::Env.pipes(result?)
     end
 
     def redundant_run?
-      !first_pipe? && !exists?(RSpeed::Value.result_key)
+      !first_pipe? && !exists?(RSpeed::Env.result_key)
     end
 
     def rename
-      redis.rename(RSpeed::Value.tmp_key, RSpeed::Value.result_key)
+      redis.rename(RSpeed::Env.tmp_key, RSpeed::Env.result_key)
     end
 
     def result?
-      !keys(RSpeed::Value.result_key).empty?
+      !keys(RSpeed::Env.result_key).empty?
     end
 
     def split(data = diff)
@@ -144,7 +144,7 @@ module RSpeed
     end
 
     def rspeed_data
-      @rspeed_data ||= get(RSpeed::Value.result_key).map { |item| JSON.parse(item, symbolize_names: true) }
+      @rspeed_data ||= get(RSpeed::Env.result_key).map { |item| JSON.parse(item, symbolize_names: true) }
     end
 
     def rspeed_examples
@@ -152,7 +152,7 @@ module RSpeed
     end
 
     def stream(type, data)
-      puts "PIPE: #{RSpeed::Value.pipe} with #{type}: #{data}"
+      puts "PIPE: #{RSpeed::Env.pipe} with #{type}: #{data}"
     end
   end
 end

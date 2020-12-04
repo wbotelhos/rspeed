@@ -24,7 +24,7 @@ module RSpeed
     end
 
     def append_name(value)
-      [value, RSpeed::Value.name].flatten.compact.join('_')
+      [value, RSpeed::Env.name].flatten.compact.join('_')
     end
   end
 end
