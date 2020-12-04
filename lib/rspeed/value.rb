@@ -4,6 +4,10 @@ module RSpeed
   module Value
     module_function
 
+    def name
+      ENV['RSPEED_NAME']
+    end
+
     def pipe
       ENV.fetch('RSPEED_PIPE') { 1 }.to_i
     end

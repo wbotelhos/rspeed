@@ -8,15 +8,23 @@ module RSpeed
     CSV             = 'rspeed.csv'
 
     def key(number)
-      "rspeed_#{number}".to_sym
+      [append_name('rspeed'), number].join('_').to_sym
     end
 
     def result
-      'rspeed'
+      append_name('rspeed')
     end
 
     def tmp
-      'rspeed_tmp'
+      append_name('rspeed_tmp')
+    end
+
+    def name
+      'rspeed_name'
+    end
+
+    def append_name(value)
+      [value, RSpeed::Value.name].flatten.compact.join('_')
     end
   end
 end
