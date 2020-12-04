@@ -79,7 +79,7 @@ module RSpeed
     def pipe_files
       return unless result?
 
-      split[:"rspeed_#{pipe}"][:files].map { |item| item[:file] }.join(' ')
+      split[RSpeed::Variable.key(pipe)][:files].map { |item| item[:file] }.join(' ')
     end
 
     def pipes
@@ -106,15 +106,15 @@ module RSpeed
       json = {}
 
       pipes.times do |index|
-        json["rspeed_#{index + 1}".to_sym] ||= []
-        json["rspeed_#{index + 1}".to_sym] = { total: 0, files: [], number: index + 1 }
+        json[RSpeed::Variable.key(index + 1)] ||= []
+        json[RSpeed::Variable.key(index + 1)] = { total: 0, files: [], number: index + 1 }
       end
 
       sorted_data = data.sort_by { |item| item[:time] }.reverse
 
       sorted_data.each do |record|
         selected_pipe_data = json.min_by { |pipe| pipe[1][:total] }
-        selected_pipe      = json["rspeed_#{selected_pipe_data[1][:number]}".to_sym]
+        selected_pipe      = json[RSpeed::Variable.key(selected_pipe_data[1][:number])]
         time               = record[:time].to_f
 
         selected_pipe[:total] += time

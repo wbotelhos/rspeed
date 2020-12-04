@@ -7,6 +7,10 @@ module RSpeed
     DEFAULT_PATTERN = 'rspeed_*'
     CSV             = 'rspeed.csv'
 
+    def key(number)
+      "rspeed_#{number}".to_sym
+    end
+
     def result
       'rspeed'
     end
