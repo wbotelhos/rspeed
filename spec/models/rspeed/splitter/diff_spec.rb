@@ -16,7 +16,7 @@ RSpec.describe RSpeed::Splitter, '#diff' do
     redis.lpush 'rspeed', { file: './spec/fixtures/2_spec.rb:666', time: '6' }.to_json
     redis.lpush 'rspeed', { file: './spec/fixtures/x_spec.rb:1', time: 3 }.to_json
 
-    File.open('spec/fixtures/new_spec.rb', 'a') { |file| file.write("it") }
+    File.open('spec/fixtures/new_spec.rb', 'a') { |file| file.write('it') }
   end
 
   after { delete_file('spec/fixtures/new_spec.rb') }

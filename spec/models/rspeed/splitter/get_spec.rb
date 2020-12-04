@@ -19,14 +19,14 @@ RSpec.describe RSpeed::Splitter, '#get' do
         {
           'files' => [[1, '1_spec.rb'], [2, '2_spec.rb']],
           'number' => 0,
-          'total' => 3
+          'total' => 3,
         },
 
         {
           'files' => [[3, '3_spec.rb']],
           'number' => 1,
-          'total' => 3
-        }
+          'total' => 3,
+        },
       ]
     end
   end
@@ -41,8 +41,8 @@ RSpec.describe RSpeed::Splitter, '#get' do
         {
           'files' => [[1, '1_spec.rb'], [2, '2_spec.rb']],
           'number' => 0,
-          'total' => 3
-        }
+          'total' => 3,
+        },
       ]
     end
   end
@@ -56,7 +56,7 @@ RSpec.describe RSpeed::Splitter, '#get' do
     it 'executes the right fetch method' do
       expect(splitter.get('rspeed')).to eq [
         '{"file":"2_spec.rb","time":2}',
-        '{"file":"1_spec.rb","time":1}'
+        '{"file":"1_spec.rb","time":1}',
       ]
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe RSpeed::Splitter, '#get' do
     it 'executes the right fetch method' do
       expect(splitter.get('rspeed_tmp')).to eq [
         '{"file":"2_spec.rb","time":2}',
-        '{"file":"1_spec.rb","time":1}'
+        '{"file":"1_spec.rb","time":1}',
       ]
     end
   end

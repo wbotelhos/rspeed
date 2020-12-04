@@ -11,7 +11,7 @@ RSpec.describe RSpeed::Splitter, '#append' do
 
     expect(splitter.get('rspeed_tmp')).to eq [
       '{"file":"2_spec.rb","time":2.0}',
-      '{"file":"1_spec.rb","time":1.0}'
+      '{"file":"1_spec.rb","time":1.0}',
     ]
   end
 

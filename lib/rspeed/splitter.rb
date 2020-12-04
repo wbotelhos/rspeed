@@ -14,7 +14,7 @@ module RSpeed
             lines    = data.split("\n")
 
             lines&.each.with_index do |item, index|
-              examples << "#{file}:#{index + 1}" if item.gsub(/\s+/, '') =~ /^it/
+              examples << "#{file}:#{index + 1}" if /^it/.match?(item.gsub(/\s+/, ''))
             end
           end
 
@@ -140,7 +140,7 @@ module RSpeed
     end
 
     def removed_time
-      removed_examples.map { |item| item[0].to_f }.sum
+      removed_examples.sum { |item| item[0].to_f }
     end
 
     def rspeed_data

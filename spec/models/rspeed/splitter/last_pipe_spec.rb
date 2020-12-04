@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-
-
 RSpec.describe RSpeed::Splitter, '.last_pipe?' do
   subject(:splitter) { described_class.new }
 

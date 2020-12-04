@@ -25,7 +25,7 @@ def populate_csv_file
     '0.7,./spec/0_7_spec.rb',
     '0.4,./spec/0_4_spec.rb',
     '0.3,./spec/0_3_spec.rb',
-    '0.2,./spec/0_2_spec.rb'
+    '0.2,./spec/0_2_spec.rb',
   ].join("\n")
 
   File.open('rspeed.csv', 'a') { |file| file.write(data) }
