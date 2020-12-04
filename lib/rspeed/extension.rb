@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 if ENV['RSPEED'] == 'true'
-  require 'rspec/rails'
+  require 'rspec'
 
   RSpec.configure do |config|
     config.before(:suite) { RSpeed::Observer.before_suite }

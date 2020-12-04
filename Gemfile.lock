@@ -3,6 +3,7 @@ PATH
   specs:
     rspeed (0.4.0)
       redis
+      rspec
 
 GEM
   remote: https://rubygems.org/
@@ -77,7 +78,6 @@ DEPENDENCIES
   fakeredis
   pry-byebug
   rake
-  rspec
   rspeed!
   rubocop-rspec
 
