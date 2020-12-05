@@ -17,6 +17,6 @@ RSpec.describe RSpeed::Observer, '.after' do
   it 'sets the spent time on pipe name to indicate it finished' do
     described_class.after(example)
 
-    expect(RSpeed::Redis.get('pipe_1')).to eq('1.0')
+    expect(RSpeed::Redis.get('rspeed_pipe_1')).to eq('1.0')
   end
 end

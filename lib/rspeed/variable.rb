@@ -4,8 +4,9 @@ module RSpeed
   module Variable
     module_function
 
-    DEFAULT_PATTERN = 'rspeed_*'
     CSV             = 'rspeed.csv'
+    DEFAULT_PATTERN = 'rspeed_*'
+    PIPES_PATTERN   = 'rspeed_pipe_*'
 
     def append_name(value, suffix = nil)
       [value, RSpeed::Env.name, suffix].compact.join('_')
