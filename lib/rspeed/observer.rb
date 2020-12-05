@@ -12,6 +12,8 @@ module RSpeed
       File.open(RSpeed::Variable::CSV, 'a') do |file|
         file.write("#{spent_time},#{file_path}:#{line_number}\n")
       end
+
+      RSpeed::Redis.set(RSpeed::Variable.pipe_name, spent_time)
     end
 
     def before(example)

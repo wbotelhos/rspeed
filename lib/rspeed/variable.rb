@@ -7,8 +7,12 @@ module RSpeed
     DEFAULT_PATTERN = 'rspeed_*'
     CSV             = 'rspeed.csv'
 
+    def append_name(value, suffix = nil)
+      [value, RSpeed::Env.name, suffix].compact.join('_')
+    end
+
     def key(number)
-      [append_name('rspeed'), number].join('_').to_sym
+      append_name('rspeed', number).to_sym
     end
 
     def result
@@ -19,12 +23,8 @@ module RSpeed
       append_name('rspeed_tmp')
     end
 
-    def name
-      'rspeed_name'
-    end
-
-    def append_name(value)
-      [value, RSpeed::Env.name].flatten.compact.join('_')
+    def pipe_name
+      append_name('pipe', RSpeed::Env.pipe)
     end
   end
 end

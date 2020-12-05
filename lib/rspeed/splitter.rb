@@ -2,6 +2,8 @@
 
 module RSpeed
   class Splitter
+    require 'json'
+
     def initialize(specs_path: './spec/**/*_spec.rb')
       @specs_path = specs_path
     end
@@ -50,7 +52,7 @@ module RSpeed
       @get ||= begin
         return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result, RSpeed::Variable.tmp].include?(pattern)
 
-        keys(pattern).map { |key| JSON.parse(redis.get(key)) }
+        keys(pattern).map { |key| ::JSON.parse(redis.get(key)) }
       end
     end
 
@@ -130,7 +132,7 @@ module RSpeed
     end
 
     def redis
-      @redis ||= ::Redis.new(db: RSpeed::Env.db, host: RSpeed::Env.host, port: RSpeed::Env.port)
+      @redis ||= ::RSpeed::Redis.client
     end
 
     def removed_examples

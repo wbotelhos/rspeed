@@ -2,12 +2,12 @@
 
 module RSpeed
   require 'csv'
-  require 'redis'
-end
 
-require 'rspeed/env'
-require 'rspeed/extension'
-require 'rspeed/observer'
-require 'rspeed/runner'
-require 'rspeed/splitter'
-require 'rspeed/variable'
+  require 'rspeed/env'
+  require 'rspeed/extension'
+  require 'rspeed/observer'
+  require 'rspeed/redis'
+  require 'rspeed/runner'
+  require 'rspeed/splitter'
+  require 'rspeed/variable'
+end
