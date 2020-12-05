@@ -31,10 +31,6 @@ module RSpeed
       end
     end
 
-    def destroy(pattern = RSpeed::Variable::DEFAULT_PATTERN)
-      RSpeed::Redis.keys(pattern).each { |key| redis.del(key) }
-    end
-
     def diff
       actual_data = rspeed_data.select { |item| actual_examples.include?(item[:file]) }
       added_data  = added_examples.map { |item| { file: item, time: 0 } }

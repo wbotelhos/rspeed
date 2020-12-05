@@ -10,6 +10,10 @@ module RSpeed
       @client ||= ::Redis.new(db: RSpeed::Env.db, host: RSpeed::Env.host, port: RSpeed::Env.port)
     end
 
+    def destroy(pattern = RSpeed::Variable::DEFAULT_PATTERN)
+      keys(pattern).each { |key| client.del(key) }
+    end
+
     def get(key)
       client.get(key)
     end
