@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'support/fakeredis'
-
 RSpec.describe RSpeed::Redis, '#destroy' do
   let!(:redis) { described_class }
 

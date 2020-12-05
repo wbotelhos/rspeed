@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'json'
-require 'support/fakeredis'
-
 RSpec.describe RSpeed::Splitter, '#append' do
   subject(:splitter) { described_class.new }
 

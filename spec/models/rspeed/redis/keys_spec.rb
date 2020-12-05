@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'support/fakeredis'
-
 RSpec.describe RSpeed::Redis, '.keys' do
   subject(:redis) { described_class }
 

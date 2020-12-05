@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'support/fakeredis'
-
 RSpec.describe RSpeed::Splitter, '.redundant_run?' do
   subject(:splitter) { described_class.new }
 
