@@ -6,7 +6,7 @@ module RSpeed
 
     desc 'Creates RSpeed task'
 
-    def copy_initializer
+    def create_initializer
       copy_file 'lib/tasks/rspeed.rake', 'lib/tasks/rspeed.rake'
     end
   end
