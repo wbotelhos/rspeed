@@ -26,7 +26,7 @@ RSpec.describe RSpeed::Runner, '#run' do
     context 'when is the first pipe' do
       before do
         allow(splitter).to receive(:first_pipe?).and_return(true)
-        allow(splitter).to receive(:destroy)
+        allow(RSpeed::Redis).to receive(:destroy)
         allow(splitter).to receive(:pipe_files).and_return('spec_1.rb spec_2.rb')
       end
 
@@ -36,7 +36,7 @@ RSpec.describe RSpeed::Runner, '#run' do
         it 'destroyes rspeed_tmp, run all specs, appends the partial result' do
           described_class.run(shell)
 
-          expect(splitter).to have_received(:destroy).with('rspeed_tmp')
+          expect(RSpeed::Redis).to have_received(:destroy).with('rspeed_tmp')
 
           expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
 
@@ -53,7 +53,7 @@ RSpec.describe RSpeed::Runner, '#run' do
         it 'destroyes rspeed_tmp, run the pipe specs, appends the partial result and generates the final result' do
           described_class.run(shell)
 
-          expect(splitter).to have_received(:destroy).with('rspeed_tmp')
+          expect(RSpeed::Redis).to have_received(:destroy).with('rspeed_tmp')
 
           expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
 
