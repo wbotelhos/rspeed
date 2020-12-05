@@ -3,7 +3,7 @@
 require 'support/fakeredis'
 
 RSpec.describe RSpeed::Redis, '.keys' do
-  subject(:splitter) { described_class }
+  subject(:redis) { described_class }
 
   context 'with default config' do
     before do
@@ -13,7 +13,7 @@ RSpec.describe RSpeed::Redis, '.keys' do
     end
 
     it 'shows keys' do
-      expect(splitter.keys).to eq %w[rspeed_1 rspeed_2 rspeed_3]
+      expect(redis.keys).to eq %w[rspeed_1 rspeed_2 rspeed_3]
     end
   end
 
@@ -25,7 +25,7 @@ RSpec.describe RSpeed::Redis, '.keys' do
     end
 
     it 'shows keys' do
-      expect(splitter.keys('custom_key_*')).to eq %w[custom_key_1 custom_key_2 custom_key_3]
+      expect(redis.keys('custom_key_*')).to eq %w[custom_key_1 custom_key_2 custom_key_3]
     end
   end
 end
