@@ -24,7 +24,7 @@ module RSpeed
     end
 
     def pipe_name
-      append_name('pipe', RSpeed::Env.pipe)
+      append_name('rspeed_pipe', RSpeed::Env.pipe)
     end
   end
 end
