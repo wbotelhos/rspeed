@@ -24,6 +24,10 @@ module RSpeed
       truncate_csv_file
     end
 
+    def specs_finished?
+      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).size == RSpeed::Env.pipes
+    end
+
     def truncate_csv_file
       File.open(RSpeed::Variable::CSV, 'w') { |file| file.truncate(0) }
     end
