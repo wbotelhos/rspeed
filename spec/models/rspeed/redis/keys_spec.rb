@@ -2,16 +2,14 @@
 
 require 'support/fakeredis'
 
-RSpec.describe RSpeed::Splitter, '.keys' do
-  subject(:splitter) { described_class.new }
-
-  let!(:redis) { redis_object }
+RSpec.describe RSpeed::Redis, '.keys' do
+  subject(:splitter) { described_class }
 
   context 'with default config' do
     before do
-      redis.set 'rspeed_1', 'value_1'
-      redis.set 'rspeed_2', 'value_2'
-      redis.set 'rspeed_3', 'value_3'
+      described_class.set('rspeed_1', 'value_1')
+      described_class.set('rspeed_2', 'value_2')
+      described_class.set('rspeed_3', 'value_3')
     end
 
     it 'shows keys' do
@@ -21,9 +19,9 @@ RSpec.describe RSpeed::Splitter, '.keys' do
 
   context 'with custom key' do
     before do
-      redis.set 'custom_key_1', 'value_1'
-      redis.set 'custom_key_2', 'value_2'
-      redis.set 'custom_key_3', 'value_3'
+      described_class.set('custom_key_1', 'value_1')
+      described_class.set('custom_key_2', 'value_2')
+      described_class.set('custom_key_3', 'value_3')
     end
 
     it 'shows keys' do

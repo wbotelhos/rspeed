@@ -14,6 +14,20 @@ module RSpeed
       client.get(key)
     end
 
+    def keys(pattern = RSpeed::Variable::DEFAULT_PATTERN)
+      cursor = 0
+      result = []
+
+      loop do
+        cursor, results = client.scan(cursor, match: pattern)
+        result += results
+
+        break if cursor.to_i.zero?
+      end
+
+      result
+    end
+
     def set(key, value)
       client.set(key, value)
     end

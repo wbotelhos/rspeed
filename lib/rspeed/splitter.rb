@@ -32,7 +32,7 @@ module RSpeed
     end
 
     def destroy(pattern = RSpeed::Variable::DEFAULT_PATTERN)
-      keys(pattern).each { |key| redis.del(key) }
+      RSpeed::Redis.keys(pattern).each { |key| redis.del(key) }
     end
 
     def diff
@@ -52,22 +52,8 @@ module RSpeed
       @get ||= begin
         return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result, RSpeed::Variable.tmp].include?(pattern)
 
-        keys(pattern).map { |key| ::JSON.parse(redis.get(key)) }
+        RSpeed::Redis.keys(pattern).map { |key| ::JSON.parse(redis.get(key)) }
       end
-    end
-
-    def keys(pattern = RSpeed::Variable::DEFAULT_PATTERN)
-      cursor = 0
-      result = []
-
-      loop do
-        cursor, results = redis.scan(cursor, match: pattern)
-        result += results
-
-        break if cursor.to_i.zero?
-      end
-
-      result
     end
 
     def last_pipe?
@@ -93,7 +79,7 @@ module RSpeed
     end
 
     def result?
-      !keys(RSpeed::Env.result_key).empty?
+      !RSpeed::Redis.keys(RSpeed::Env.result_key).empty?
     end
 
     def split(data = diff)
