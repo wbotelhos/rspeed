@@ -19,7 +19,7 @@ module RSpeed
 
       splitter.append
 
-      return unless specs_finished?
+      return unless RSpeed::Redis.specs_finished?
 
       splitter.rename
 
@@ -32,10 +32,8 @@ module RSpeed
 
     def before_suite
       truncate_csv_file
-    end
 
-    def specs_finished?
-      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).size == RSpeed::Env.pipes
+      RSpeed::Redis.destroy(RSpeed::Variable.tmp) unless RSpeed::Redis.specs_initiated?
     end
 
     def truncate_csv_file

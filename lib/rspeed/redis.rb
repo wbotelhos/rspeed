@@ -43,5 +43,13 @@ module RSpeed
     def set(key, value)
       client.set(key, value)
     end
+
+    def specs_finished?
+      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).size == RSpeed::Env.pipes
+    end
+
+    def specs_initiated?
+      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).size > 0
+    end
   end
 end

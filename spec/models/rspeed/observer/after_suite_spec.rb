@@ -9,7 +9,7 @@ RSpec.describe RSpeed::Observer, '.after' do
   end
 
   context 'when all specs is not finished' do
-    before { allow(described_class).to receive(:specs_finished?).and_return(false) }
+    before { allow(RSpeed::Redis).to receive(:specs_finished?).and_return(false) }
 
     it 'sets true on pipe key to indicates that its finished' do
       described_class.after_suite
@@ -26,7 +26,7 @@ RSpec.describe RSpeed::Observer, '.after' do
 
   context 'when all specs finished' do
     before do
-      allow(described_class).to receive(:specs_finished?).and_return(true)
+      allow(RSpeed::Redis).to receive(:specs_finished?).and_return(true)
       allow(splitter).to receive(:rename)
       allow(RSpeed::Redis).to receive(:clean_pipes_flag)
     end
