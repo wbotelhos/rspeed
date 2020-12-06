@@ -3,23 +3,19 @@
 require 'support/env_mock'
 
 RSpec.describe RSpeed::Observer, '.specs_finished?' do
-  before { RSpeed::Redis.set('rspeed_pipe_1', '1.0') }
+  before do
+    RSpeed::Redis.set('rspeed_pipe_1', '1.0')
 
-  context 'when we do not have the information about finishing the pipes' do
-    it 'returns false' do
-      EnvMock.mock(rspeed_pipes: 2) do
-        expect(described_class.specs_finished?).to be(false)
-      end
-    end
+    allow(RSpeed::Env).to receive(:pipes).and_return(2)
   end
 
-  context 'when we have the information about finishing the pipes' do
+  context 'when the quantity of pipe result is not the same as the quantity of pipes' do
+    it { expect(described_class.specs_finished?).to be(false) }
+  end
+
+  context 'when the quantity of pipe result is the same as the quantity of pipes' do
     before { RSpeed::Redis.set('rspeed_pipe_2', '2.0') }
 
-    it 'returns false' do
-      EnvMock.mock(rspeed_pipes: 2) do
-        expect(described_class.specs_finished?).to be(true)
-      end
-    end
+    it { expect(described_class.specs_finished?).to be(true) }
   end
 end

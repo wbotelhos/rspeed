@@ -10,10 +10,6 @@ module RSpeed
       RSpeed::Redis.destroy(RSpeed::Variable.tmp) if splitter.first_pipe?
 
       shell.call(['bundle exec rspec', splitter.pipe_files].compact.join(' '))
-
-      splitter.append
-
-      splitter.rename if splitter.last_pipe?
     end
   end
 end

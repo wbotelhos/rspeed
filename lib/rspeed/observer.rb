@@ -12,8 +12,14 @@ module RSpeed
       File.open(RSpeed::Variable::CSV, 'a') do |file|
         file.write("#{spent_time},#{file_path}:#{line_number}\n")
       end
+    end
 
-      RSpeed::Redis.set(RSpeed::Variable.pipe_name, spent_time)
+    def after_suite(splitter = ::RSpeed::Splitter.new)
+      RSpeed::Redis.set(RSpeed::Variable.pipe_name, true)
+
+      splitter.append
+
+      splitter.rename if specs_finished?
     end
 
     def before(example)

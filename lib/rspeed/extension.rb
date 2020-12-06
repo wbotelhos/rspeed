@@ -7,5 +7,6 @@ if RSpeed::Env.rspeed
     config.before(:suite) { RSpeed::Observer.before_suite }
     config.before { |example| RSpeed::Observer.before(example) }
     config.after { |example| RSpeed::Observer.after(example) }
+    config.after(:suite) { RSpeed::Observer.after_suite }
   end
 end
