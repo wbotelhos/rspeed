@@ -20,8 +20,8 @@ module RSpeed
       ENV.fetch('RSPEED_PIPE', 1).to_i
     end
 
-    def pipes(has_result = true)
-      has_result ? ENV.fetch('RSPEED_PIPES', 1).to_i : 1
+    def pipes
+      RSpeed::Redis.result? ? ENV.fetch('RSPEED_PIPES', 1).to_i : 1
     end
 
     def port

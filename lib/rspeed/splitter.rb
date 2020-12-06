@@ -58,10 +58,6 @@ module RSpeed
       split[RSpeed::Variable.key(RSpeed::Env.pipe)][:files].map { |item| item[:file] }.join(' ')
     end
 
-    def pipes
-      RSpeed::Env.pipes(RSpeed::Redis.result?)
-    end
-
     def redundant_run?
       !first_pipe? && !exists?(RSpeed::Env.result_key)
     end
@@ -73,7 +69,7 @@ module RSpeed
     def split(data = diff)
       json = {}
 
-      pipes.times do |index|
+      RSpeed::Env.pipes.times do |index|
         json[RSpeed::Variable.key(index + 1)] ||= []
         json[RSpeed::Variable.key(index + 1)] = { total: 0, files: [], number: index + 1 }
       end

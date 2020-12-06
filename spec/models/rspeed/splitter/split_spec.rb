@@ -15,7 +15,7 @@ RSpec.describe RSpeed::Splitter, '.split' do
     ]
   end
 
-  before { allow(splitter).to receive(:pipes).and_return 3 }
+  before { allow(RSpeed::Env).to receive(:pipes).and_return 3 }
 
   context 'when diff is given' do
     it 'splits the times between the pipes' do
