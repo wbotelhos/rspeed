@@ -25,14 +25,22 @@ RSpec.describe RSpeed::Observer, '.after' do
   end
 
   context 'when all specs finished' do
-    before { allow(described_class).to receive(:specs_finished?).and_return(true) }
+    before do
+      allow(described_class).to receive(:specs_finished?).and_return(true)
+      allow(splitter).to receive(:rename)
+      allow(RSpeed::Redis).to receive(:clean_pipes_flag)
+    end
 
     it 'renames the tmp data to the permanent key result' do
-      allow(splitter).to receive(:rename)
-
       described_class.after_suite
 
       expect(splitter).to have_received(:rename)
+    end
+
+    it 'destroyes pipe finished flag keys' do
+      described_class.after_suite
+
+      expect(RSpeed::Redis).to have_received(:clean_pipes_flag)
     end
   end
 end

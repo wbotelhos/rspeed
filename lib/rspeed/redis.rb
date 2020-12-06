@@ -6,6 +6,10 @@ module RSpeed
 
     module_function
 
+    def clean_pipes_flag
+      destroy(RSpeed::Variable::PIPES_PATTERN)
+    end
+
     def client
       @client ||= ::Redis.new(db: RSpeed::Env.db, host: RSpeed::Env.host, port: RSpeed::Env.port)
     end

@@ -19,7 +19,11 @@ module RSpeed
 
       splitter.append
 
-      splitter.rename if specs_finished?
+      return unless specs_finished?
+
+      splitter.rename
+
+      RSpeed::Redis.clean_pipes_flag
     end
 
     def before(example)
