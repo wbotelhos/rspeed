@@ -52,10 +52,6 @@ module RSpeed
       end
     end
 
-    def last_pipe?
-      RSpeed::Env.pipe == pipes
-    end
-
     def pipe_files
       return unless RSpeed::Redis.result?
 
