@@ -1,7 +1,18 @@
 ## master
 
-- The first pipe no more saves a key with specs for each pipe. Now each pipe calculate it's files via `rspeed` key content;
-- Add env `RSPEED_NAME` to be possible set your app name and avoid override;
+- None;
+
+## v0.5.0
+
+#### Fix
+
+- Add env `RSPEED_NAME` to specify the application name and avoid result conflicts between multiple runs;
+- No more depends on pipe sequence to generate ou aggregate the resul;
+- rake `rspeed:install`;
+
+#### Update
+
+- The result of the pipes are no more saved on Redis. It's now calculated based on result key `rspeed`;
 
 ## v0.4.0
 
