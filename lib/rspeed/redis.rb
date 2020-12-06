@@ -37,7 +37,7 @@ module RSpeed
     end
 
     def result?
-      !keys(RSpeed::Env.result_key).empty?
+      keys(RSpeed::Env.result_key).any?
     end
 
     def set(key, value)
@@ -49,7 +49,7 @@ module RSpeed
     end
 
     def specs_initiated?
-      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).size > 0
+      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).any?
     end
   end
 end
