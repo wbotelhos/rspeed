@@ -32,6 +32,10 @@ module RSpeed
       result
     end
 
+    def result?
+      !keys(RSpeed::Env.result_key).empty?
+    end
+
     def set(key, value)
       client.set(key, value)
     end

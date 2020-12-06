@@ -57,13 +57,13 @@ module RSpeed
     end
 
     def pipe_files
-      return unless result?
+      return unless RSpeed::Redis.result?
 
       split[RSpeed::Variable.key(RSpeed::Env.pipe)][:files].map { |item| item[:file] }.join(' ')
     end
 
     def pipes
-      RSpeed::Env.pipes(result?)
+      RSpeed::Env.pipes(RSpeed::Redis.result?)
     end
 
     def redundant_run?
@@ -72,10 +72,6 @@ module RSpeed
 
     def rename
       redis.rename(RSpeed::Env.tmp_key, RSpeed::Env.result_key)
-    end
-
-    def result?
-      !RSpeed::Redis.keys(RSpeed::Env.result_key).empty?
     end
 
     def split(data = diff)
