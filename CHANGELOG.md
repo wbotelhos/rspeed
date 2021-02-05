@@ -2,6 +2,12 @@
 
 - None;
 
+## v0.5.1
+
+#### Fix
+
+- Only pipe number 1 will warm up avoiding duplicated spec entries;
+
 ## v0.5.0
 
 #### Fix

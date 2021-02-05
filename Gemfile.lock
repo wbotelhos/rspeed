@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspeed (0.5.0)
+    rspeed (0.5.1)
       redis
       rspec
 
