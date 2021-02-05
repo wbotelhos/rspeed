@@ -17,13 +17,13 @@ module RSpeed
     def after_suite(splitter = ::RSpeed::Splitter.new)
       RSpeed::Redis.set(RSpeed::Variable.pipe_name, true)
 
-      splitter.append
+      splitter.append if splitter.append?
 
       return unless RSpeed::Redis.specs_finished?
 
       splitter.rename
 
-      RSpeed::Redis.clean_pipes_flag
+      RSpeed::Redis.clean
     end
 
     def before(example)

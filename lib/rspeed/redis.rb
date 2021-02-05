@@ -6,7 +6,7 @@ module RSpeed
 
     module_function
 
-    def clean_pipes_flag
+    def clean
       destroy(RSpeed::Variable::PIPES_PATTERN)
     end
 

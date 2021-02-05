@@ -21,7 +21,7 @@ module RSpeed
     end
 
     def pipes
-      RSpeed::Redis.result? ? ENV.fetch('RSPEED_PIPES', 1).to_i : 1
+      ENV.fetch('RSPEED_PIPES', 1).to_i
     end
 
     def port

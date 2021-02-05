@@ -5,6 +5,7 @@ module RSpeed
 
   require 'rspeed/env'
   require 'rspeed/extension'
+  require 'rspeed/logger'
   require 'rspeed/observer'
   require 'rspeed/redis'
   require 'rspeed/runner'

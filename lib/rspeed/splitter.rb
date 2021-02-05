@@ -25,6 +25,10 @@ module RSpeed
       end
     end
 
+    def append?
+      RSpeed::Redis.result? || first_pipe?
+    end
+
     def append(files = CSV.read(RSpeed::Variable::CSV))
       files.each do |time, file|
         redis.lpush(RSpeed::Env.tmp_key, { file: file, time: time.to_f }.to_json)
@@ -52,14 +56,14 @@ module RSpeed
       end
     end
 
+    def need_warm?
+      first_pipe? && !RSpeed::Redis.result?
+    end
+
     def pipe_files
       return unless RSpeed::Redis.result?
 
       split[RSpeed::Variable.key(RSpeed::Env.pipe)][:files].map { |item| item[:file] }.join(' ')
-    end
-
-    def redundant_run?
-      !first_pipe? && !exists?(RSpeed::Env.result_key)
     end
 
     def rename
@@ -96,11 +100,6 @@ module RSpeed
       end
     end
 
-    # TODO: exists? does not work: undefined method `>' for false:FalseClass
-    def exists?(key)
-      redis.keys.include?(key)
-    end
-
     def redis
       @redis ||= ::RSpeed::Redis.client
     end
@@ -124,7 +123,7 @@ module RSpeed
     end
 
     def stream(type, data)
-      puts "PIPE: #{RSpeed::Env.pipe} with #{type}: #{data}"
+      RSpeed::Logger.log("PIPE: #{RSpeed::Env.pipe} with #{type}: #{data}")
     end
   end
 end
