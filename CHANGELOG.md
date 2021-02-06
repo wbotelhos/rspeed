@@ -1,6 +1,7 @@
 ## master
 
 - CSV dependency dropped;
+- Drops tmp key in favor of profile keys fetch;
 
 ## v0.5.1
 

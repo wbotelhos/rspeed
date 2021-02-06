@@ -19,7 +19,7 @@ def populate_profiles
     { file: './spec/0_2_spec.rb', time: 0.2 }.to_json,
   ]
 
-  RSpeed::Splitter.new.append(data, key: RSpeed::Variable.profile)
+  RSpeed::Splitter.new.append(items: data, key: RSpeed::Variable.profile)
 end
 
 def redis_object

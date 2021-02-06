@@ -15,9 +15,15 @@ module RSpeed
     end
 
     def after_suite(splitter = ::RSpeed::Splitter.new)
-      splitter.append
+      RSpeed::Redis.set(RSpeed::Variable.pipe_name, true)
 
-      pipe_done
+      return unless RSpeed::Redis.specs_finished?
+
+      splitter.rename
+
+      RSpeed::Redis.clean
+
+      RSpeed::Logger.log('RSpeed finished.')
     end
 
     def before(example)
@@ -32,18 +38,6 @@ module RSpeed
 
     def clean_profile
       RSpeed::Redis.destroy(RSpeed::Variable::PROFILE_PATTERN)
-    end
-
-    def pipe_done(splitter = ::RSpeed::Splitter.new)
-      RSpeed::Redis.set(RSpeed::Variable.pipe_name, true)
-
-      return unless RSpeed::Redis.specs_finished?
-
-      splitter.rename
-
-      RSpeed::Redis.clean
-
-      RSpeed::Logger.log('RSpeed finished.')
     end
   end
 end

@@ -11,7 +11,7 @@ module RSpeed
 
       RSpeed::Logger.log("Pipe #{RSpeed::Env.pipe} skipped. Only Pipe 1 can warm.")
 
-      RSpeed::Observer.pipe_done
+      RSpeed::Observer.after_suite
     end
   end
 end

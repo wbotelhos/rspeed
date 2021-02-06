@@ -29,8 +29,8 @@ module RSpeed
       RSpeed::Redis.result? || first_pipe?
     end
 
-    def append(items = get(RSpeed::Variable.profile), key: RSpeed::Env.tmp_key)
-      items.each { |item| redis.lpush(key, item) }
+    def append(items:, key:)
+      items.each { |item| redis.rpush(key, item) }
     end
 
     def diff
@@ -48,9 +48,7 @@ module RSpeed
 
     def get(pattern)
       @get ||= begin
-        if [RSpeed::Variable.profile, RSpeed::Variable.result, RSpeed::Variable.tmp].include?(pattern)
-          return redis.lrange(pattern, 0, -1)
-        end
+        return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result, RSpeed::Variable.tmp].include?(pattern)
 
         RSpeed::Redis.keys(pattern).map { |key| ::JSON.parse(redis.get(key)) }
       end
@@ -67,7 +65,10 @@ module RSpeed
     end
 
     def rename
-      redis.rename(RSpeed::Env.tmp_key, RSpeed::Env.result_key)
+      append(
+        items: RSpeed::Redis.client.keys('rspeed_profile_*').map { |key| redis.lrange(key, 0, -1) },
+        key: 'rspeed'
+      )
     end
 
     def split(data = diff)

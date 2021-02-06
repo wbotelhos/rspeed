@@ -7,7 +7,6 @@ RSpec.describe RSpeed::Runner, '#run' do
   before do
     allow(shell).to receive(:call)
     allow(RSpeed::Splitter).to receive(:new).and_return(splitter)
-    allow(RSpeed::Observer).to receive(:pipe_done)
   end
 
   context 'when has result' do
@@ -24,12 +23,6 @@ RSpec.describe RSpeed::Runner, '#run' do
 
         expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
       end
-
-      it 'does not execute the pine done' do
-        described_class.run(shell)
-
-        expect(RSpeed::Observer).not_to have_received(:pipe_done)
-      end
     end
 
     context 'when is not the first pipe' do
@@ -42,12 +35,6 @@ RSpec.describe RSpeed::Runner, '#run' do
         described_class.run(shell)
 
         expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
-      end
-
-      it 'does not execute the pine done' do
-        described_class.run(shell)
-
-        expect(RSpeed::Observer).not_to have_received(:pipe_done)
       end
     end
   end
@@ -66,16 +53,13 @@ RSpec.describe RSpeed::Runner, '#run' do
 
         expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
       end
-
-      it 'does not execute the pine done' do
-        described_class.run(shell)
-
-        expect(RSpeed::Observer).not_to have_received(:pipe_done)
-      end
     end
 
     context 'when is not the first pipe' do
-      before { allow(splitter).to receive(:first_pipe?).and_return(false) }
+      before do
+        allow(splitter).to receive(:first_pipe?).and_return(false)
+        allow(RSpeed::Observer).to receive(:after_suite)
+      end
 
       it 'does not run the pipe specs' do
         described_class.run(shell)
@@ -83,10 +67,10 @@ RSpec.describe RSpeed::Runner, '#run' do
         expect(shell).not_to have_received(:call)
       end
 
-      it 'executes the pine done' do
+      it 'executes the after suite callback' do
         described_class.run(shell)
 
-        expect(RSpeed::Observer).to have_received(:pipe_done)
+        expect(RSpeed::Observer).to have_received(:after_suite)
       end
     end
   end
