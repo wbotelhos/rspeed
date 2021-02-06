@@ -29,10 +29,8 @@ module RSpeed
       RSpeed::Redis.result? || first_pipe?
     end
 
-    def append(files = CSV.read(RSpeed::Variable::CSV))
-      files.each do |time, file|
-        redis.lpush(RSpeed::Env.tmp_key, { file: file, time: time.to_f }.to_json)
-      end
+    def append(items = get(RSpeed::Variable.profile), key: RSpeed::Env.tmp_key)
+      items.each { |item| redis.lpush(key, item) }
     end
 
     def diff
@@ -50,7 +48,9 @@ module RSpeed
 
     def get(pattern)
       @get ||= begin
-        return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result, RSpeed::Variable.tmp].include?(pattern)
+        if [RSpeed::Variable.profile, RSpeed::Variable.result, RSpeed::Variable.tmp].include?(pattern)
+          return redis.lrange(pattern, 0, -1)
+        end
 
         RSpeed::Redis.keys(pattern).map { |key| ::JSON.parse(redis.get(key)) }
       end

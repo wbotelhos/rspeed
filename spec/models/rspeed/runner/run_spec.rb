@@ -7,41 +7,87 @@ RSpec.describe RSpeed::Runner, '#run' do
   before do
     allow(shell).to receive(:call)
     allow(RSpeed::Splitter).to receive(:new).and_return(splitter)
-    allow(RSpeed::Observer).to receive(:after_suite)
+    allow(RSpeed::Observer).to receive(:pipe_done)
   end
 
-  context 'when does not need warm' do
-    before { allow(splitter).to receive(:need_warm?).and_return(false) }
+  context 'when has result' do
+    before { allow(RSpeed::Redis).to receive(:result?).and_return(true) }
 
-    it 'does not run the specs' do
-      described_class.run(shell)
+    context 'when is the first pipe' do
+      before do
+        allow(splitter).to receive(:first_pipe?).and_return(true)
+        allow(splitter).to receive(:pipe_files).and_return('spec_1.rb spec_2.rb')
+      end
 
-      expect(shell).not_to have_received(:call)
+      it 'runs the pipe specs' do
+        described_class.run(shell)
+
+        expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
+      end
+
+      it 'does not execute the pine done' do
+        described_class.run(shell)
+
+        expect(RSpeed::Observer).not_to have_received(:pipe_done)
+      end
     end
 
-    it 'executes the after suite to complete the current pipe' do
-      described_class.run(shell)
+    context 'when is not the first pipe' do
+      before do
+        allow(splitter).to receive(:first_pipe?).and_return(false)
+        allow(splitter).to receive(:pipe_files).and_return('spec_1.rb spec_2.rb')
+      end
 
-      expect(RSpeed::Observer).to have_received(:after_suite)
+      it 'runs the pipe specs' do
+        described_class.run(shell)
+
+        expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
+      end
+
+      it 'does not execute the pine done' do
+        described_class.run(shell)
+
+        expect(RSpeed::Observer).not_to have_received(:pipe_done)
+      end
     end
   end
 
-  context 'when need warm' do
+  context 'when has no result' do
     before do
-      allow(splitter).to receive(:need_warm?).and_return(true)
+      allow(splitter).to receive(:first_pipe?).and_return(false)
       allow(splitter).to receive(:pipe_files).and_return('spec_1.rb spec_2.rb')
     end
 
-    it 'run the pipe specs' do
-      described_class.run(shell)
+    context 'when is the first pipe' do
+      before { allow(splitter).to receive(:first_pipe?).and_return(true) }
 
-      expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
+      it 'runs the pipe specs' do
+        described_class.run(shell)
+
+        expect(shell).to have_received(:call).with('bundle exec rspec spec_1.rb spec_2.rb')
+      end
+
+      it 'does not execute the pine done' do
+        described_class.run(shell)
+
+        expect(RSpeed::Observer).not_to have_received(:pipe_done)
+      end
     end
 
-    it 'does not execute the after suite to complete the current pipe' do
-      described_class.run(shell)
+    context 'when is not the first pipe' do
+      before { allow(splitter).to receive(:first_pipe?).and_return(false) }
 
-      expect(RSpeed::Observer).not_to have_received(:after_suite)
+      it 'does not run the pipe specs' do
+        described_class.run(shell)
+
+        expect(shell).not_to have_received(:call)
+      end
+
+      it 'executes the pine done' do
+        described_class.run(shell)
+
+        expect(RSpeed::Observer).to have_received(:pipe_done)
+      end
     end
   end
 end

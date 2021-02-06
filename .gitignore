@@ -3,5 +3,4 @@
 *.gem
 /.bundle
 /coverage
-/rspeed.csv
 /vendor/*

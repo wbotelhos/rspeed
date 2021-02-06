@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 RSpec.describe RSpeed::Observer, '.before_suite' do
-  before { truncate_file }
+  before { truncate_profiles }
 
-  it 'cleans the csv file' do
-    File.open('rspeed.csv', 'a') { |file| file.write('content') }
+  it 'cleans the pipe profile' do
+    RSpeed::Redis.client.lpush('rspeed_profile_1', { file: '1_spec.rb', time: 1 }.to_json)
 
     described_class.before_suite
 
-    expect(File.open('rspeed.csv').read).to eq ''
+    expect(RSpeed::Splitter.new.get('rspeed_profile_1')).to eq []
   end
 
   context 'when specs are not initiated yet' do

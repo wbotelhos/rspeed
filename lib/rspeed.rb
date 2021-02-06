@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module RSpeed
-  require 'csv'
-
   require 'rspeed/env'
   require 'rspeed/extension'
   require 'rspeed/logger'

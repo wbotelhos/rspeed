@@ -9,4 +9,12 @@ RSpec.describe RSpeed::Redis, '.clean' do
 
     expect(described_class.keys('*')).to eq([])
   end
+
+  it 'destroys the pipe profiles' do
+    described_class.set('rspeed_profile_1', true)
+
+    described_class.clean
+
+    expect(described_class.keys('*')).to eq([])
+  end
 end

@@ -8,6 +8,7 @@ module RSpeed
 
     def clean
       destroy(RSpeed::Variable::PIPES_PATTERN)
+      destroy(RSpeed::Variable::PROFILE_PATTERN)
     end
 
     def client

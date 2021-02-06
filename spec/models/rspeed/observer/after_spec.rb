@@ -6,11 +6,13 @@ RSpec.describe RSpeed::Observer, '.after' do
   let!(:metadata) { { file_path: 'file_path', line_number: 7, start_at: now - 1 } }
   let!(:example) { instance_double(RSpec::Core::Example, clock: clock, metadata: metadata) }
 
-  before { truncate_file }
+  before { truncate_profiles }
 
-  it 'appends the time of example on csv file' do
+  it 'appends the file and time on pipe profile key' do
     described_class.after(example)
 
-    expect(File.open('rspeed.csv').read).to eq "1.0,file_path:7\n"
+    expect(RSpeed::Redis.client.lrange(RSpeed::Variable.profile, 0, -1)).to eq [
+      { file: 'file_path:7', time: 1.0 }.to_json,
+    ]
   end
 end

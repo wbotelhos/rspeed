@@ -71,4 +71,18 @@ RSpec.describe RSpeed::Splitter, '#get' do
       ]
     end
   end
+
+  context 'when pattern is rspeed_profile' do
+    before do
+      redis.lpush 'rspeed_profile_1', { file: '1_spec.rb', time: 1 }.to_json
+      redis.lpush 'rspeed_profile_1', { file: '2_spec.rb', time: 2 }.to_json
+    end
+
+    it 'executes the right fetch method' do
+      expect(splitter.get('rspeed_profile_1')).to eq [
+        '{"file":"2_spec.rb","time":2}',
+        '{"file":"1_spec.rb","time":1}',
+      ]
+    end
+  end
 end

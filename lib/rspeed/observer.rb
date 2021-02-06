@@ -9,21 +9,15 @@ module RSpeed
       line_number = example.metadata[:line_number]
       spent_time  = example.clock.now - example.metadata[:start_at]
 
-      File.open(RSpeed::Variable::CSV, 'a') do |file|
-        file.write("#{spent_time},#{file_path}:#{line_number}\n")
-      end
+      json = { file: "#{file_path}:#{line_number}", time: spent_time }.to_json
+
+      RSpeed::Redis.client.lpush(RSpeed::Variable.profile, json)
     end
 
     def after_suite(splitter = ::RSpeed::Splitter.new)
-      RSpeed::Redis.set(RSpeed::Variable.pipe_name, true)
+      splitter.append
 
-      splitter.append if splitter.append?
-
-      return unless RSpeed::Redis.specs_finished?
-
-      splitter.rename
-
-      RSpeed::Redis.clean
+      pipe_done
     end
 
     def before(example)
@@ -31,13 +25,25 @@ module RSpeed
     end
 
     def before_suite
-      truncate_csv_file
+      clean_profile
 
       RSpeed::Redis.destroy(RSpeed::Variable.tmp) unless RSpeed::Redis.specs_initiated?
     end
 
-    def truncate_csv_file
-      File.open(RSpeed::Variable::CSV, 'w') { |file| file.truncate(0) }
+    def clean_profile
+      RSpeed::Redis.destroy(RSpeed::Variable::PROFILE_PATTERN)
+    end
+
+    def pipe_done(splitter = ::RSpeed::Splitter.new)
+      RSpeed::Redis.set(RSpeed::Variable.pipe_name, true)
+
+      return unless RSpeed::Redis.specs_finished?
+
+      splitter.rename
+
+      RSpeed::Redis.clean
+
+      RSpeed::Logger.log('RSpeed finished.')
     end
   end
 end

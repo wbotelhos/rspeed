@@ -5,11 +5,13 @@ module RSpeed
     module_function
 
     def run(shell, splitter: ::RSpeed::Splitter.new)
-      return shell.call(['bundle exec rspec', splitter.pipe_files].compact.join(' ')) if splitter.need_warm?
+      if RSpeed::Redis.result? || splitter.first_pipe?
+        return shell.call(['bundle exec rspec', splitter.pipe_files].compact.join(' '))
+      end
 
       RSpeed::Logger.log("Pipe #{RSpeed::Env.pipe} skipped. Only Pipe 1 can warm.")
 
-      RSpeed::Observer.after_suite
+      RSpeed::Observer.pipe_done
     end
   end
 end

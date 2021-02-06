@@ -1,6 +1,6 @@
 ## master
 
-- None;
+- CSV dependency dropped;
 
 ## v0.5.1
 
