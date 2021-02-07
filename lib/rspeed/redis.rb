@@ -7,6 +7,8 @@ module RSpeed
     module_function
 
     def clean
+      RSpeed::Logger.log('[RSpeed::Redis#clean] Cleaning pipes and profiles.')
+
       destroy(RSpeed::Variable::PIPES_PATTERN)
       destroy(RSpeed::Variable::PROFILE_PATTERN)
     end
@@ -16,6 +18,8 @@ module RSpeed
     end
 
     def destroy(pattern = RSpeed::Variable::DEFAULT_PATTERN)
+      RSpeed::Logger.log(%([RSpeed::Redis#destroy] Destroying pattern "#{pattern}".))
+
       keys(pattern).each { |key| client.del(key) }
     end
 
@@ -46,11 +50,15 @@ module RSpeed
     end
 
     def specs_finished?
-      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).size == RSpeed::Env.pipes
+      (RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).size == RSpeed::Env.pipes).tap do |boo|
+        RSpeed::Logger.log("[RSpeed::Redis#specs_finished?] Specs #{boo ? 'finished.' : 'not fineshed yet.'}")
+      end
     end
 
     def specs_initiated?
-      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).any?
+      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).any?.tap do |boo|
+        RSpeed::Logger.log("[RSpeed::Redis#specs_initiated?] Specs #{boo ? 'initialized.' : 'not initialized yet.'}")
+      end
     end
   end
 end

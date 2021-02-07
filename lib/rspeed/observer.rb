@@ -32,12 +32,13 @@ module RSpeed
 
     def before_suite
       clean_profile
-
-      RSpeed::Redis.destroy(RSpeed::Variable.tmp) unless RSpeed::Redis.specs_initiated?
     end
 
     def clean_profile
-      RSpeed::Redis.destroy(RSpeed::Variable::PROFILE_PATTERN)
+      RSpeed::Logger.log('[RSpeed::Observer#clean_profile] Cleanning current flag and profile.')
+
+      RSpeed::Redis.destroy(RSpeed::Variable.pipe_name)
+      RSpeed::Redis.destroy(RSpeed::Variable.profile)
     end
   end
 end

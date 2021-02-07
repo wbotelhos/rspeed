@@ -35,9 +35,5 @@ module RSpeed
     def rspeed
       ENV['RSPEED'] == 'true'
     end
-
-    def tmp_key
-      ENV.fetch('RESPEED_TMP_KEY', RSpeed::Variable.tmp)
-    end
   end
 end

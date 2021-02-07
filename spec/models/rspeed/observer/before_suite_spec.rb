@@ -1,37 +1,26 @@
 # frozen_string_literal: true
 
 RSpec.describe RSpeed::Observer, '.before_suite' do
-  before { truncate_profiles }
+  let!(:redis) { redis_object }
 
-  it 'cleans the pipe profile' do
-    RSpeed::Redis.client.lpush('rspeed_profile_1', { file: '1_spec.rb', time: 1 }.to_json)
+  before { truncate_profiles }
+  after { truncate_profiles }
+
+  it 'cleans only the current pipe profile' do
+    redis.lpush('rspeed_profile_1', { file: '1_spec.rb', time: 1 }.to_json)
+    redis.lpush('rspeed_profile_2', { file: '2_spec.rb', time: 2 }.to_json)
 
     described_class.before_suite
 
-    expect(RSpeed::Splitter.new.get('rspeed_profile_1')).to eq []
+    expect(redis.keys).to eq ['rspeed_profile_2']
   end
 
-  context 'when specs are not initiated yet' do
-    before { allow(RSpeed::Redis).to receive(:specs_initiated?).and_return(false) }
+  it 'cleans the pipe flag' do
+    redis.set('rspeed_pipe_1', true)
+    redis.set('rspeed_pipe_2', true)
 
-    it 'destroyes the tmp result key' do
-      RSpeed::Redis.client.lpush(RSpeed::Env.tmp_key, { file: 'file', time: 1.0 }.to_json)
+    described_class.before_suite
 
-      described_class.before_suite
-
-      expect(RSpeed::Splitter.new.get(RSpeed::Variable.tmp)).to eq([])
-    end
-  end
-
-  context 'when specs are already initiated' do
-    before { allow(RSpeed::Redis).to receive(:specs_initiated?).and_return(true) }
-
-    it 'does not destroy the tmp result key' do
-      RSpeed::Redis.client.lpush(RSpeed::Env.tmp_key, { file: 'file', time: 1.0 }.to_json)
-
-      described_class.before_suite
-
-      expect(RSpeed::Splitter.new.get(RSpeed::Variable.tmp)).to eq(['{"file":"file","time":1.0}'])
-    end
+    expect(redis.keys).to eq ['rspeed_pipe_2']
   end
 end

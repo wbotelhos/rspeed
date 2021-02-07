@@ -48,7 +48,7 @@ module RSpeed
 
     def get(pattern)
       @get ||= begin
-        return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result, RSpeed::Variable.tmp].include?(pattern)
+        return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result].include?(pattern)
 
         RSpeed::Redis.keys(pattern).map { |key| ::JSON.parse(redis.get(key)) }
       end

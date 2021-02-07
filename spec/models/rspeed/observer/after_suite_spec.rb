@@ -14,7 +14,7 @@ RSpec.describe RSpeed::Observer, '.after_suite' do
       allow(splitter).to receive(:rename)
     end
 
-    it 'does not append the time result on tmp key' do
+    it 'does not append the time result' do
       described_class.after_suite
 
       expect(splitter).not_to have_received(:append)
@@ -42,7 +42,7 @@ RSpec.describe RSpeed::Observer, '.after_suite' do
       allow(RSpeed::Redis).to receive(:clean)
     end
 
-    it 'renames the tmp data to the permanent key result' do
+    it 'consolidates profiles' do
       described_class.after_suite
 
       expect(splitter).to have_received(:rename)
