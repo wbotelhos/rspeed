@@ -10,20 +10,14 @@ RSpec.describe RSpeed::Redis, '#destroy' do
   end
 
   it 'destroys via wildcard' do
-    redis.destroy('rspeed_*')
+    redis.destroy(pattern: 'rspeed_*')
 
     expect(redis.keys('*')).to eq %w[rspeed]
   end
 
   it 'destroys via single name' do
-    redis.destroy('rspeed')
+    redis.destroy(pattern: 'rspeed')
 
     expect(redis.keys('*')).to eq %w[rspeed_1 rspeed_2]
-  end
-
-  it 'destroys default partner when no pattern is given' do
-    redis.destroy
-
-    expect(redis.keys('*')).to eq %w[rspeed]
   end
 end

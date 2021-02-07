@@ -5,7 +5,7 @@ def delete_file(file_path)
 end
 
 def truncate_profiles
-  RSpeed::Redis.destroy(RSpeed::Variable::PROFILE_PATTERN)
+  RSpeed::Redis.destroy(pattern: RSpeed::Variable::PROFILE_PATTERN)
 end
 
 def populate_profiles

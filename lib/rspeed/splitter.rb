@@ -28,7 +28,7 @@ module RSpeed
     def consolidate
       RSpeed::Logger.log('[RSpeed::Splitter#consolidate] Consolidating profiles.')
 
-      RSpeed::Redis.destroy(RSpeed::Variable.result)
+      RSpeed::Redis.destroy(pattern: RSpeed::Variable.result)
 
       append(items: RSpeed::Redis.profiles_content, key: RSpeed::Variable.result)
     end

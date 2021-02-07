@@ -37,8 +37,8 @@ module RSpeed
     def clean_profile
       RSpeed::Logger.log('[RSpeed::Observer#clean_profile] Cleanning current flag and profile.')
 
-      RSpeed::Redis.destroy(RSpeed::Variable.pipe)
-      RSpeed::Redis.destroy(RSpeed::Variable.profile)
+      RSpeed::Redis.destroy(pattern: RSpeed::Variable.pipe)
+      RSpeed::Redis.destroy(pattern: RSpeed::Variable.profile)
     end
   end
 end

@@ -9,15 +9,15 @@ module RSpeed
     def clean
       RSpeed::Logger.log('[RSpeed::Redis#clean] Cleaning pipes and profiles.')
 
-      destroy(RSpeed::Variable::PIPES_PATTERN)
-      destroy(RSpeed::Variable::PROFILE_PATTERN)
+      destroy(pattern: RSpeed::Variable::PIPES_PATTERN)
+      destroy(pattern: RSpeed::Variable::PROFILE_PATTERN)
     end
 
     def client
       @client ||= ::Redis.new(db: RSpeed::Env.db, host: RSpeed::Env.host, port: RSpeed::Env.port)
     end
 
-    def destroy(pattern = RSpeed::Variable::DEFAULT_PATTERN)
+    def destroy(pattern:)
       RSpeed::Logger.log(%([RSpeed::Redis#destroy] Destroying pattern "#{pattern}".))
 
       keys(pattern).each { |key| client.del(key) }
