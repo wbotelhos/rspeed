@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe RSpeed::Splitter, '#get' do
+RSpec.describe RSpeed::Splitter, '#list' do
   subject(:splitter) { described_class.new }
 
   let!(:redis) { redis_object }
@@ -12,7 +12,7 @@ RSpec.describe RSpeed::Splitter, '#get' do
     end
 
     it 'returns all values' do
-      expect(splitter.get('rspeed_*')).to eq [
+      expect(splitter.list('rspeed_*')).to eq [
         {
           'files' => [[1, '1_spec.rb'], [2, '2_spec.rb']],
           'number' => 0,
@@ -34,7 +34,7 @@ RSpec.describe RSpeed::Splitter, '#get' do
     end
 
     it 'returns all values from that key' do
-      expect(splitter.get('pattern')).to eq [
+      expect(splitter.list('pattern')).to eq [
         {
           'files' => [[1, '1_spec.rb'], [2, '2_spec.rb']],
           'number' => 0,
@@ -51,7 +51,7 @@ RSpec.describe RSpeed::Splitter, '#get' do
     end
 
     it 'executes the right fetch method' do
-      expect(splitter.get('rspeed')).to eq [
+      expect(splitter.list('rspeed')).to eq [
         '{"file":"2_spec.rb","time":2}',
         '{"file":"1_spec.rb","time":1}',
       ]

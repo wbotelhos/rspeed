@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe RSpeed::Redis, '.set' do
+  let!(:redis) { redis_object }
+
   it 'sets a key on redis' do
-    described_class.client.set('key', 'value')
+    redis_object.set('key', 'value')
 
     expect(described_class.get('key')).to eq('value')
   end

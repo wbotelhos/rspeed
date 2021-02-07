@@ -57,8 +57,8 @@ module RSpeed
       RSpeed::Env.pipe == 1
     end
 
-    def get(pattern)
-      @get ||= begin
+    def list(pattern)
+      @list ||= begin
         return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result].include?(pattern)
 
         RSpeed::Redis.keys(pattern).map { |key| ::JSON.parse(redis.get(key)) }
@@ -120,7 +120,7 @@ module RSpeed
     end
 
     def rspeed_data
-      @rspeed_data ||= get(RSpeed::Variable.result).map { |item| JSON.parse(item, symbolize_names: true) }
+      @rspeed_data ||= list(RSpeed::Variable.result).map { |item| JSON.parse(item, symbolize_names: true) }
     end
 
     def rspeed_examples
