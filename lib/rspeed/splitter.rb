@@ -31,9 +31,9 @@ module RSpeed
     def pipe_files
       return unless RSpeed::Redis.result?
 
-      result = split(data: RSpeed::Differ.diff)
+      splitted = split(data: RSpeed::Differ.diff)
 
-      result[RSpeed::Variable.key(RSpeed::Env.pipe)][:files].map { |item| item[:file] }.join(' ')
+      splitted[RSpeed::Variable.key(RSpeed::Env.pipe)][:files].map { |item| item[:file] }.join(' ')
     end
 
     def split(data:)

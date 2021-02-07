@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe RSpeed::Splitter, '#pipe_files' do
-  let!(:shell) { double('shell') }
-
-  before { allow(RSpeed::Env).to receive(:pipe).and_return(1) }
-
   context 'when has no result' do
     before { allow(RSpeed::Redis).to receive(:result?).and_return(false) }
 
@@ -19,7 +15,7 @@ RSpec.describe RSpeed::Splitter, '#pipe_files' do
     end
 
     it 'returns the splitted pipe files' do
-      expect(described_class.pipe_files).to eq 'spec_1.rb spec_2.rb'
+      expect(described_class.pipe_files).to eq('spec_1.rb spec_2.rb')
     end
   end
 end
