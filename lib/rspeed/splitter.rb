@@ -13,7 +13,7 @@ module RSpeed
     end
 
     def consolidate
-      RSpeed::Logger.log('[RSpeed::Splitter#consolidate] Consolidating profiles.')
+      RSpeed::Logger.log(self, __method__, 'Consolidating profiles.')
 
       RSpeed::Redis.destroy(pattern: RSpeed::Variable.result)
 

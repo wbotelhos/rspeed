@@ -5,53 +5,51 @@ module RSpeed
     module_function
 
     def actual_files(spec_path: RSpeed::Env.spec_path)
-      [].tap do |examples|
+      [].tap do |data|
         Dir[spec_path].sort.each do |file|
-          data     = File.open(file).read
-          lines    = data.split("\n")
+          lines = File.open(file).read.split("\n")
 
           lines&.each&.with_index do |item, index|
-            examples << "#{file}:#{index + 1}" if /^it/.match?(item.gsub(/\s+/, ''))
+            data << "#{file}:#{index + 1}" if /^it/.match?(item.gsub(/\s+/, ''))
           end
         end
 
-        stream(:actual_files, examples)
+        RSpeed::Logger.log(self, __method__, data)
       end
     end
 
     def actual_data(files:, result:)
       result
         .select { |item| files.include?(item[:file]) }
-        .tap { |data| stream(:actual_data, data) }
+        .tap { |data| RSpeed::Logger.log(self, __method__, data) }
     end
 
     def added_data(files:, result:)
       (files - result.map { |item| item[:file] })
         .map { |file| { file: file, time: 0 } }
-        .tap { |examples| stream(:added, examples) }
+        .tap { |data| RSpeed::Logger.log(self, __method__, data) }
     end
 
     def diff
       files  = actual_files
       result = RSpeed::Database.result.uniq { |item| item[:file] }
 
-      removed_data(files: files, result: result) # called just for stream purpose
+      removed_data(files: files, result: result) # called just for log purpose
 
-      actual_data(files: files, result: result) + added_data(files: files, result: result)
+      (actual_data(files: files, result: result) + added_data(files: files, result: result))
+        .tap { |data| RSpeed::Logger.log(self, __method__, data) }
     end
 
     def removed_data(files:, result:)
       result
         .reject { |item| files.include?(item[:file]) }
-        .tap { |data| stream(:removed, data) }
+        .tap { |data| RSpeed::Logger.log(self, __method__, data) }
     end
 
     def removed_time(data:)
-      data.sum { |item| item[:time].to_f }
-    end
-
-    def stream(type, data)
-      RSpeed::Logger.log("PIPE: #{RSpeed::Env.pipe} with #{type}: #{data}")
+      data
+        .sum { |item| item[:time].to_f }
+        .tap { |result| RSpeed::Logger.log(self, __method__, result) }
     end
   end
 end
