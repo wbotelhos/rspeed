@@ -2,7 +2,7 @@
 
 require 'support/env_mock'
 
-RSpec.describe RSpeed::Splitter, '#diff' do
+RSpec.describe RSpeed::Differ, '#diff' do
   let!(:redis) { redis_object }
 
   before do

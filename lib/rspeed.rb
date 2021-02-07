@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module RSpeed
+  require 'rspeed/database'
   require 'rspeed/env'
   require 'rspeed/extension'
   require 'rspeed/logger'
