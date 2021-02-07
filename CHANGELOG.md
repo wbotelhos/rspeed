@@ -1,6 +1,8 @@
 ## master
 
-- None;
+#### Break Change
+
+- Drops `RSPEED_RESULT_KEY` key in favor of `RSPEED_NAME`;
 
 ## v0.5.2
 

@@ -67,11 +67,11 @@ module RSpeed
     def rename
       RSpeed::Logger.log('[RSpeed::Splitter#consolidate] Consolidating profiles.')
 
-      RSpeed::Redis.destroy(RSpeed::Env.result_key)
+      RSpeed::Redis.destroy(RSpeed::Variable.result)
 
       append(
         items: RSpeed::Redis.client.keys('rspeed_profile_*').map { |key| redis.lrange(key, 0, -1) },
-        key: RSpeed::Env.result_key
+        key: RSpeed::Variable.result
       )
     end
 
@@ -120,7 +120,7 @@ module RSpeed
     end
 
     def rspeed_data
-      @rspeed_data ||= get(RSpeed::Env.result_key).map { |item| JSON.parse(item, symbolize_names: true) }
+      @rspeed_data ||= get(RSpeed::Variable.result).map { |item| JSON.parse(item, symbolize_names: true) }
     end
 
     def rspeed_examples

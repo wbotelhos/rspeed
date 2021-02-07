@@ -28,10 +28,6 @@ module RSpeed
       ENV['RSPEED_PORT']&.to_i
     end
 
-    def result_key
-      ENV.fetch('RESPEED_RESULT_KEY', RSpeed::Variable.result)
-    end
-
     def rspeed
       ENV['RSPEED'] == 'true'
     end

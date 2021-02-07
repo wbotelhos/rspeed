@@ -42,7 +42,7 @@ module RSpeed
     end
 
     def result?
-      keys(RSpeed::Env.result_key).any?
+      keys(RSpeed::Variable.result).any?
     end
 
     def set(key, value)

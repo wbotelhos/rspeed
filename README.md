@@ -29,7 +29,6 @@ rake rspeed:install
 - `RSPEED_NAME`: You app name to avoid data override
 - `RSPEED_PIPE`: Current pipe
 - `RSPEED_PIPES`: Quantity of pipes
-- `RSPEED_RESULT_KEY`: The key that keeps the final result of all pipes
 - `RSPEED`: Enables RSpeed
 
 ```sh
