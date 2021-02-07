@@ -38,10 +38,7 @@ module RSpeed
 
       RSpeed::Redis.destroy(RSpeed::Variable.result)
 
-      append(
-        items: RSpeed::Redis.client.keys('rspeed_profile_*').map { |key| redis.lrange(key, 0, -1) },
-        key: RSpeed::Variable.result
-      )
+      append(items: RSpeed::Redis.profiles_content, key: RSpeed::Variable.result)
     end
 
     def diff
@@ -55,14 +52,6 @@ module RSpeed
 
     def first_pipe?
       RSpeed::Env.pipe == 1
-    end
-
-    def list(pattern)
-      @list ||= begin
-        return redis.lrange(pattern, 0, -1) if [RSpeed::Variable.result].include?(pattern)
-
-        RSpeed::Redis.keys(pattern).map { |key| ::JSON.parse(redis.get(key)) }
-      end
     end
 
     def need_warm?
@@ -120,7 +109,9 @@ module RSpeed
     end
 
     def rspeed_data
-      @rspeed_data ||= list(RSpeed::Variable.result).map { |item| JSON.parse(item, symbolize_names: true) }
+      @rspeed_data ||= RSpeed::Redis.list(RSpeed::Variable.result).map do |item|
+        JSON.parse(item, symbolize_names: true)
+      end
     end
 
     def rspeed_examples
