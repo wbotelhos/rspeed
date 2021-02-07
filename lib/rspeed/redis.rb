@@ -45,7 +45,7 @@ module RSpeed
       client.lrange(key, 0, -1)
     end
 
-    def profiles_content(pattern: 'rspeed_profile_*')
+    def profiles_content(pattern: 'rspeed:profile_*')
       client.keys(pattern).map { |key| list(key) }.flatten
     end
 

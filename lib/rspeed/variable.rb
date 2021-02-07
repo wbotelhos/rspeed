@@ -4,8 +4,8 @@ module RSpeed
   module Variable
     module_function
 
-    PIPES_PATTERN   = 'rspeed_pipe_*'
-    PROFILE_PATTERN = 'rspeed_profile_*'
+    PIPES_PATTERN   = 'rspeed:pipe_*'
+    PROFILE_PATTERN = 'rspeed:profile_*'
 
     def append_app_name(value, plus: nil)
       [value, RSpeed::Env.app, plus].compact.join('_')
@@ -20,11 +20,11 @@ module RSpeed
     end
 
     def pipe
-      append_app_name('rspeed_pipe', plus: format('%02d', RSpeed::Env.pipe))
+      append_app_name('rspeed:pipe', plus: format('%02d', RSpeed::Env.pipe))
     end
 
     def profile
-      append_app_name('rspeed_profile', plus: format('%02d', RSpeed::Env.pipe))
+      append_app_name('rspeed:profile', plus: format('%02d', RSpeed::Env.pipe))
     end
   end
 end
