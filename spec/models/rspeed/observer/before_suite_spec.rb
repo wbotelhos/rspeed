@@ -4,6 +4,7 @@ RSpec.describe RSpeed::Observer, '.before_suite' do
   let!(:redis) { redis_object }
 
   before { truncate_profiles }
+
   after { truncate_profiles }
 
   it 'cleans only the current pipe profile' do

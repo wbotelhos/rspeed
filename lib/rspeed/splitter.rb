@@ -97,7 +97,6 @@ module RSpeed
       (actual - consolidated).tap { |examples| stream(:added_examples, examples) }
     end
 
-
     def removed_examples(actual:, consolidated:)
       (consolidated - actual).tap { |examples| stream(:removed_examples, examples) }
     end
