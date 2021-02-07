@@ -15,7 +15,7 @@ module RSpeed
     end
 
     def after_suite(splitter = ::RSpeed::Splitter.new)
-      RSpeed::Redis.set(RSpeed::Variable.pipe_name, true)
+      RSpeed::Redis.set(RSpeed::Variable.pipe, true)
 
       return unless RSpeed::Redis.specs_finished?
 
@@ -37,7 +37,7 @@ module RSpeed
     def clean_profile
       RSpeed::Logger.log('[RSpeed::Observer#clean_profile] Cleanning current flag and profile.')
 
-      RSpeed::Redis.destroy(RSpeed::Variable.pipe_name)
+      RSpeed::Redis.destroy(RSpeed::Variable.pipe)
       RSpeed::Redis.destroy(RSpeed::Variable.profile)
     end
   end
