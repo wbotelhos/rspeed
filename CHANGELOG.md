@@ -1,5 +1,15 @@
 ## master
 
+- None;
+
+## v0.5.2
+
+#### Fix
+
+- Avoid duplicate entries in the consolidated result;
+
+#### Update
+
 - CSV dependency dropped;
 - Drops tmp key in favor of profile keys fetch;
 
