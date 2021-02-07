@@ -4,16 +4,16 @@ module RSpeed
   module Env
     module_function
 
+    def app
+      ENV['RSPEED_APP']
+    end
+
     def db
       ENV['RSPEED_DB']&.to_i
     end
 
     def host
       ENV['RSPEED_HOST']
-    end
-
-    def name
-      ENV['RSPEED_NAME']
     end
 
     def pipe

@@ -26,13 +26,13 @@ rake rspeed:install
 
 ## Usage
 
-- `RSPEED_NAME`: You app name to avoid data override
+- `RSPEED_APP`: You app name to avoid data override
 - `RSPEED_PIPE`: Current pipe
 - `RSPEED_PIPES`: Quantity of pipes
 - `RSPEED`: Enables RSpeed
 
 ```sh
-RSPEED=true RSPEED_NAME=authorizy RSPEED_PIPE=1 RSPEED_PIPES=3 bundle exec rake rspeed:run
+RSPEED=true RSPEED_APP=blog RSPEED_PIPE=1 RSPEED_PIPES=3 bundle exec rake rspeed:run
 ```
 
 ## How it Works

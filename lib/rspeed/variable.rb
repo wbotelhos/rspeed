@@ -8,24 +8,24 @@ module RSpeed
     PIPES_PATTERN   = 'rspeed_pipe_*'
     PROFILE_PATTERN = 'rspeed_profile_*'
 
-    def append_name(value, suffix = nil)
-      [value, RSpeed::Env.name, suffix].compact.join('_')
+    def append_app_name(value, plus: nil)
+      [value, RSpeed::Env.app, plus].compact.join('_')
     end
 
     def key(number)
-      append_name('rspeed', number).to_sym
+      append_app_name('rspeed', plus: number).to_sym
     end
 
     def result
-      append_name('rspeed')
+      append_app_name('rspeed')
     end
 
     def pipe
-      append_name('rspeed_pipe', RSpeed::Env.pipe)
+      append_app_name('rspeed_pipe', plus: RSpeed::Env.pipe)
     end
 
     def profile
-      append_name('rspeed_profile', RSpeed::Env.pipe)
+      append_app_name('rspeed_profile', plus: RSpeed::Env.pipe)
     end
   end
 end

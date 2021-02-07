@@ -7,7 +7,7 @@ RSpec.describe RSpeed::Variable, '.pipe' do
 
   context 'when env name is given' do
     it 'includes the name' do
-      EnvMock.mock(rspeed_name: 'app') do
+      EnvMock.mock(rspeed_app: 'app') do
         expect(described_class.pipe).to eq('rspeed_pipe_app_1')
       end
     end

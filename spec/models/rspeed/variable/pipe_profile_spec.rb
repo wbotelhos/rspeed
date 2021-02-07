@@ -7,7 +7,7 @@ RSpec.describe RSpeed::Variable, '.profile' do
 
   context 'when env name is given' do
     it 'includes the name' do
-      EnvMock.mock(rspeed_name: 'name') do
+      EnvMock.mock(rspeed_app: 'name') do
         expect(described_class.profile).to eq('rspeed_profile_name_1')
       end
     end

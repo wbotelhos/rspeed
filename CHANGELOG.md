@@ -3,6 +3,7 @@
 #### Break Change
 
 - Drops `RSPEED_RESULT_KEY` key in favor of `RSPEED_NAME`;
+- Renames env `RSPEED_NAME` to `RSPEED_APP`;
 
 ## v0.5.2
 
