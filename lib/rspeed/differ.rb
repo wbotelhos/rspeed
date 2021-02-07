@@ -33,7 +33,7 @@ module RSpeed
 
     def diff
       files  = actual_files
-      result = RSpeed::Database.result
+      result = RSpeed::Database.result.uniq { |item| item[:file] }
 
       removed_data(files: files, result: result) # called just for stream purpose
 

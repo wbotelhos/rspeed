@@ -9,6 +9,7 @@
 
 - Adds env `RSPEED_SPEC_PATH` to indicate the spec folders path;
 - Saves pipes and profiles with a zero at the beginning;
+- Makes sure examples is unique;
 
 ## v0.5.2
 
