@@ -19,7 +19,7 @@ module RSpeed
 
       return unless RSpeed::Redis.specs_finished?
 
-      splitter.rename
+      splitter.consolidate
 
       RSpeed::Redis.clean
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe RSpeed::Splitter, '#rename' do
+RSpec.describe RSpeed::Splitter, '#consolidate' do
   subject(:splitter) { described_class.new }
 
   let!(:redis) { redis_object }
@@ -14,7 +14,7 @@ RSpec.describe RSpeed::Splitter, '#rename' do
   end
 
   it 'copies profiles to the result key cleanning the previous result' do
-    splitter.rename
+    splitter.consolidate
 
     expect(redis.lrange('rspeed', 0, -1)).to eq [
       '{"file":"1_spec.rb","time":1.0}',

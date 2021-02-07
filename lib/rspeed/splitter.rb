@@ -33,6 +33,17 @@ module RSpeed
       items.each { |item| redis.rpush(key, item) }
     end
 
+    def consolidate
+      RSpeed::Logger.log('[RSpeed::Splitter#consolidate] Consolidating profiles.')
+
+      RSpeed::Redis.destroy(RSpeed::Variable.result)
+
+      append(
+        items: RSpeed::Redis.client.keys('rspeed_profile_*').map { |key| redis.lrange(key, 0, -1) },
+        key: RSpeed::Variable.result
+      )
+    end
+
     def diff
       actual_data = rspeed_data.select { |item| actual_examples.include?(item[:file]) }
       added_data  = added_examples.map { |item| { file: item, time: 0 } }
@@ -62,17 +73,6 @@ module RSpeed
       return unless RSpeed::Redis.result?
 
       split[RSpeed::Variable.key(RSpeed::Env.pipe)][:files].map { |item| item[:file] }.join(' ')
-    end
-
-    def rename
-      RSpeed::Logger.log('[RSpeed::Splitter#consolidate] Consolidating profiles.')
-
-      RSpeed::Redis.destroy(RSpeed::Variable.result)
-
-      append(
-        items: RSpeed::Redis.client.keys('rspeed_profile_*').map { |key| redis.lrange(key, 0, -1) },
-        key: RSpeed::Variable.result
-      )
     end
 
     def split(data = diff)
