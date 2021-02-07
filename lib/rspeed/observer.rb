@@ -11,7 +11,7 @@ module RSpeed
 
       json = { file: "#{file_path}:#{line_number}", time: spent_time }.to_json
 
-      RSpeed::Redis.client.lpush(RSpeed::Variable.profile, json)
+      RSpeed::Redis.client.rpush(RSpeed::Variable.profile, json)
     end
 
     def after_suite

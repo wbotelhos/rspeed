@@ -7,8 +7,8 @@ RSpec.describe RSpeed::Observer, '.before_suite' do
   after { truncate_profiles }
 
   it 'cleans only the current pipe profile' do
-    redis.lpush('rspeed_profile_1', { file: '1_spec.rb', time: 1 }.to_json)
-    redis.lpush('rspeed_profile_2', { file: '2_spec.rb', time: 2 }.to_json)
+    redis.rpush('rspeed_profile_1', { file: '1_spec.rb', time: 1 }.to_json)
+    redis.rpush('rspeed_profile_2', { file: '2_spec.rb', time: 2 }.to_json)
 
     described_class.before_suite
 
