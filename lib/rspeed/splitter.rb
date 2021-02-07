@@ -1,36 +1,28 @@
 # frozen_string_literal: true
 
 module RSpeed
-  class Splitter
+  module Splitter
+    module_function
+
     require 'json'
 
-    def initialize(specs_path: './spec/**/*_spec.rb')
-      @specs_path = specs_path
-    end
+    def actual_examples(spec_path: RSpeed::Env.spec_path)
+      [].tap do |examples|
+        Dir[spec_path].sort.each do |file|
+          data     = File.open(file).read
+          lines    = data.split("\n")
 
-    def actual_examples
-      @actual_examples ||= begin
-        [].tap do |examples|
-          Dir[@specs_path].sort.each do |file|
-            data     = File.open(file).read
-            lines    = data.split("\n")
-
-            lines&.each&.with_index do |item, index|
-              examples << "#{file}:#{index + 1}" if /^it/.match?(item.gsub(/\s+/, ''))
-            end
+          lines&.each&.with_index do |item, index|
+            examples << "#{file}:#{index + 1}" if /^it/.match?(item.gsub(/\s+/, ''))
           end
-
-          stream(:actual_examples, examples)
         end
+
+        stream(:actual_examples, examples)
       end
     end
 
-    def append?
-      RSpeed::Redis.result? || first_pipe?
-    end
-
     def append(items:, key:)
-      items.each { |item| redis.rpush(key, item) }
+      items.each { |item| RSpeed::Redis.client.rpush(key, item) }
     end
 
     def consolidate
@@ -41,11 +33,24 @@ module RSpeed
       append(items: RSpeed::Redis.profiles_content, key: RSpeed::Variable.result)
     end
 
-    def diff
-      actual_data = rspeed_data.select { |item| actual_examples.include?(item[:file]) }
-      added_data  = added_examples.map { |item| { file: item, time: 0 } }
+    def consolidated_json
+      RSpeed::Redis.list(RSpeed::Variable.result).map do |item|
+        JSON.parse(item, symbolize_names: true)
+      end
+    end
 
-      removed_examples # called just for stream for now
+    def diff
+      consolidated_data  = consolidated_json
+      consolidated_files = consolidated_data.map { |item| item[:file] }
+      actual_files       = actual_examples
+
+      removed_examples(actual: actual_files, consolidated: consolidated_files) # called just for stream for now
+
+      actual_data = consolidated_data.select { |item| actual_files.include?(item[:file]) }
+
+      added_data = added_examples(actual: actual_files, consolidated: consolidated_files).map do |item|
+        { file: item, time: 0 }
+      end
 
       actual_data + added_data
     end
@@ -86,37 +91,20 @@ module RSpeed
       json
     end
 
-    private
+    # private
 
-    def added_examples
-      @added_examples ||= begin
-        (actual_examples - rspeed_examples).tap { |examples| stream(:added_examples, examples) }
-      end
+    def added_examples(actual:, consolidated:)
+      (actual - consolidated).tap { |examples| stream(:added_examples, examples) }
     end
 
-    def redis
-      @redis ||= ::RSpeed::Redis.client
+
+    def removed_examples(actual:, consolidated:)
+      (consolidated - actual).tap { |examples| stream(:removed_examples, examples) }
     end
 
-    def removed_examples
-      @removed_examples ||= begin
-        (rspeed_examples - actual_examples).tap { |examples| stream(:removed_examples, examples) }
-      end
-    end
-
-    def removed_time
-      removed_examples.sum { |item| item[0].to_f }
-    end
-
-    def rspeed_data
-      @rspeed_data ||= RSpeed::Redis.list(RSpeed::Variable.result).map do |item|
-        JSON.parse(item, symbolize_names: true)
-      end
-    end
-
-    def rspeed_examples
-      rspeed_data.map { |item| item[:file] }
-    end
+    # def removed_time(actual:, consolidated:)
+    #   removed_examples((actual: actual, consolidated: consolidated)).sum { |item| item[0].to_f }
+    # end
 
     def stream(type, data)
       RSpeed::Logger.log("PIPE: #{RSpeed::Env.pipe} with #{type}: #{data}")

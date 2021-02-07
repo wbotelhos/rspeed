@@ -5,6 +5,10 @@
 - Drops `RSPEED_RESULT_KEY` key in favor of `RSPEED_NAME`;
 - Renames env `RSPEED_NAME` to `RSPEED_APP`;
 
+#### News
+
+-  Adds env `RSPEED_SPEC_PATH` to indicate the spec folders path;
+
 ## v0.5.2
 
 #### Fix

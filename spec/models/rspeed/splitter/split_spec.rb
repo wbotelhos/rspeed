@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe RSpeed::Splitter, '.split' do
-  subject(:splitter) { described_class.new }
-
   let!(:unsorted_data) do
     [
       { file: './spec/1_5_spec.rb', time: '1.5' },
@@ -19,7 +17,7 @@ RSpec.describe RSpeed::Splitter, '.split' do
 
   context 'when diff is given' do
     it 'splits the times between the pipes' do
-      expect(splitter.split(unsorted_data)).to eq(
+      expect(described_class.split(unsorted_data)).to eq(
         rspeed_1: {
           files: [{ file: './spec/2_0_spec.rb', time: 2.0 }],
           number: 1,
@@ -52,10 +50,10 @@ RSpec.describe RSpeed::Splitter, '.split' do
   end
 
   context 'when diff is not given' do
-    before { allow(splitter).to receive(:diff).and_return(unsorted_data) }
+    before { allow(described_class).to receive(:diff).and_return(unsorted_data) }
 
     it 'splits the diff result into times between the pipes' do
-      expect(splitter.split).to eq(
+      expect(described_class.split).to eq(
         rspeed_1: {
           files: [{ file: './spec/2_0_spec.rb', time: 2.0 }],
           number: 1,

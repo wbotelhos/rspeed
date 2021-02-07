@@ -14,12 +14,12 @@ module RSpeed
       RSpeed::Redis.client.lpush(RSpeed::Variable.profile, json)
     end
 
-    def after_suite(splitter = ::RSpeed::Splitter.new)
+    def after_suite
       RSpeed::Redis.set(RSpeed::Variable.pipe, true)
 
       return unless RSpeed::Redis.specs_finished?
 
-      splitter.consolidate
+      RSpeed::Splitter.consolidate
 
       RSpeed::Redis.clean
 

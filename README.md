@@ -29,6 +29,7 @@ rake rspeed:install
 - `RSPEED_APP`: You app name to avoid data override
 - `RSPEED_PIPE`: Current pipe
 - `RSPEED_PIPES`: Quantity of pipes
+- `RSPEED_SPEC_PATH`: The specs folders path
 - `RSPEED`: Enables RSpeed
 
 ```sh

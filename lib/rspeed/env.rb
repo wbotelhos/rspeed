@@ -31,5 +31,9 @@ module RSpeed
     def rspeed
       ENV['RSPEED'] == 'true'
     end
+
+    def spec_path
+      ENV.fetch('RSPEED_SPEC_PATH', './spec/**/*spec.rb')
+    end
   end
 end
