@@ -20,14 +20,14 @@ module RSpeed
     def destroy(pattern:)
       RSpeed::Logger.log(%([RSpeed::Redis#destroy] Destroying pattern "#{pattern}".))
 
-      keys(pattern).each { |key| client.del(key) }
+      keys(pattern: pattern).each { |key| client.del(key) }
     end
 
     def get(key)
       client.get(key)
     end
 
-    def keys(pattern = RSpeed::Variable::DEFAULT_PATTERN)
+    def keys(pattern:)
       cursor = 0
       result = []
 
@@ -50,7 +50,7 @@ module RSpeed
     end
 
     def result?
-      keys(RSpeed::Variable.result).any?
+      keys(pattern: RSpeed::Variable.result).any?
     end
 
     def set(key, value)
@@ -58,13 +58,13 @@ module RSpeed
     end
 
     def specs_finished?
-      (RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).size == RSpeed::Env.pipes).tap do |boo|
+      (RSpeed::Redis.keys(pattern: RSpeed::Variable::PIPES_PATTERN).size == RSpeed::Env.pipes).tap do |boo|
         RSpeed::Logger.log("[RSpeed::Redis#specs_finished?] Specs #{boo ? 'finished.' : 'not fineshed yet.'}")
       end
     end
 
     def specs_initiated?
-      RSpeed::Redis.keys(RSpeed::Variable::PIPES_PATTERN).any?.tap do |boo|
+      RSpeed::Redis.keys(pattern: RSpeed::Variable::PIPES_PATTERN).any?.tap do |boo|
         RSpeed::Logger.log("[RSpeed::Redis#specs_initiated?] Specs #{boo ? 'initialized.' : 'not initialized yet.'}")
       end
     end
