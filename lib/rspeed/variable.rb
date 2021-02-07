@@ -4,7 +4,6 @@ module RSpeed
   module Variable
     module_function
 
-    DEFAULT_PATTERN = 'rspeed_*'
     PIPES_PATTERN   = 'rspeed_pipe_*'
     PROFILE_PATTERN = 'rspeed_profile_*'
 
