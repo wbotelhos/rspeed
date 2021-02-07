@@ -9,7 +9,7 @@ RSpec.describe RSpeed::Observer, '.after_suite' do
     it 'sets true on pipe key to indicates that its finished' do
       described_class.after_suite
 
-      expect(redis.get('rspeed_pipe_1')).to eq('true')
+      expect(redis.get('rspeed_pipe_01')).to eq('true')
     end
   end
 

@@ -2,7 +2,7 @@
 
 RSpec.describe RSpeed::Redis, '.specs_finished?' do
   before do
-    described_class.set('rspeed_pipe_1', '1.0')
+    described_class.set('rspeed_pipe_01', '1.0')
 
     allow(RSpeed::Env).to receive(:pipes).and_return(2)
   end
@@ -12,7 +12,7 @@ RSpec.describe RSpeed::Redis, '.specs_finished?' do
   end
 
   context 'when the quantity of pipe result is the same as the quantity of pipes' do
-    before { described_class.set('rspeed_pipe_2', '2.0') }
+    before { described_class.set('rspeed_pipe_02', '2.0') }
 
     it { expect(described_class.specs_finished?).to be(true) }
   end

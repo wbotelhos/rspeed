@@ -7,7 +7,8 @@
 
 #### News
 
--  Adds env `RSPEED_SPEC_PATH` to indicate the spec folders path;
+- Adds env `RSPEED_SPEC_PATH` to indicate the spec folders path;
+- Saves pipes and profiles with a zero at the beginning;
 
 ## v0.5.2
 

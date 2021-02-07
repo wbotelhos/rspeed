@@ -21,11 +21,11 @@ module RSpeed
     end
 
     def pipe
-      append_app_name('rspeed_pipe', plus: RSpeed::Env.pipe)
+      append_app_name('rspeed_pipe', plus: format('%02d', RSpeed::Env.pipe))
     end
 
     def profile
-      append_app_name('rspeed_profile', plus: RSpeed::Env.pipe)
+      append_app_name('rspeed_profile', plus: format('%02d', RSpeed::Env.pipe))
     end
   end
 end
