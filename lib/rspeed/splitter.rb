@@ -67,11 +67,11 @@ module RSpeed
     def rename
       RSpeed::Logger.log('[RSpeed::Splitter#consolidate] Consolidating profiles.')
 
-      RSpeed::Redis.destroy('rspeed')
+      RSpeed::Redis.destroy(RSpeed::Env.result_key)
 
       append(
         items: RSpeed::Redis.client.keys('rspeed_profile_*').map { |key| redis.lrange(key, 0, -1) },
-        key: 'rspeed'
+        key: RSpeed::Env.result_key
       )
     end
 
