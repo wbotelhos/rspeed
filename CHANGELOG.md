@@ -1,5 +1,9 @@
 ## master
 
+- None;
+
+## v0.7.0
+
 #### News
 
 - Prints pipe info into a table on the console;
