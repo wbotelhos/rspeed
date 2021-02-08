@@ -46,7 +46,7 @@ module RSpeed
         json[RSpeed::Variable.key(index + 1)] = { total: 0, files: [], number: index + 1 }
       end
 
-      sorted_data = data.sort_by { |item| item[:time] }.reverse
+      sorted_data = data.sort_by { |item| item[:time] || 0.0 }.reverse
 
       sorted_data.each do |record|
         selected_pipe_data = json.min_by { |pipe| pipe[1][:total] }
