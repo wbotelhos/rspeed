@@ -20,7 +20,7 @@ module RSpeed
       return unless RSpeed::Redis.specs_finished?
 
       RSpeed::Splitter.consolidate
-
+      RSpeed::Reporter.call
       RSpeed::Redis.clean
 
       RSpeed::Logger.log(self, __method__, 'RSpeed finished.')

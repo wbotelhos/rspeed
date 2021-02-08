@@ -18,12 +18,19 @@ RSpec.describe RSpeed::Observer, '.after_suite' do
       allow(RSpeed::Redis).to receive(:specs_finished?).and_return(true)
       allow(RSpeed::Splitter).to receive(:consolidate)
       allow(RSpeed::Redis).to receive(:clean)
+      allow(RSpeed::Reporter).to receive(:call)
     end
 
     it 'consolidates profiles' do
       described_class.after_suite
 
       expect(RSpeed::Splitter).to have_received(:consolidate)
+    end
+
+    it 'reports' do
+      described_class.after_suite
+
+      expect(RSpeed::Reporter).to have_received(:call)
     end
 
     it 'destroyes pipe finished flag keys' do

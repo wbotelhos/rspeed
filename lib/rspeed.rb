@@ -7,6 +7,7 @@ module RSpeed
   require 'rspeed/logger'
   require 'rspeed/observer'
   require 'rspeed/redis'
+  require 'rspeed/reporter'
   require 'rspeed/runner'
   require 'rspeed/splitter'
   require 'rspeed/variable'
