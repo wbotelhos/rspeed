@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe RSpeed::Redis, '.specs_initiated?' do
+RSpec.describe RSpeed::Redis, '.specs_finished?' do
   context 'when has no pipe flag key' do
     it { expect(described_class.specs_finished?).to be(false) }
   end
