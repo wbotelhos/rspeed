@@ -33,11 +33,13 @@ module RSpeed
     def diff
       files  = actual_files
       result = RSpeed::Database.result.uniq { |item| item[:file] }
+      actual = actual_data(files: files, result: result) + added_data(files: files, result: result)
 
-      removed_data(files: files, result: result) # called just for log purpose
-
-      (actual_data(files: files, result: result) + added_data(files: files, result: result))
-        .tap { |data| RSpeed::Logger.log(self, __method__, data) }
+      {
+        actual:  actual.tap { |data| RSpeed::Logger.log(self, __method__, data) },
+        added:  '--',
+        removed: removed_data(files: files, result: result),
+      }
     end
 
     def removed_data(files:, result:)
