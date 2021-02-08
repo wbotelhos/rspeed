@@ -4,8 +4,16 @@ module RSpeed
   module Database
     module_function
 
+    def previous_result
+      list(RSpeed::Variable.previous_result)
+    end
+
     def result
-      RSpeed::Redis.list(RSpeed::Variable.result).map { |item| JSON.parse(item, symbolize_names: true) }
+      list(RSpeed::Variable.result)
+    end
+
+    def list(key)
+      RSpeed::Redis.list(key).map { |item| JSON.parse(item, symbolize_names: true) }
     end
   end
 end

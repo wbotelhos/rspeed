@@ -21,19 +21,36 @@ module RSpeed
     end
 
     def added_data(files:, result:)
-      (files - result.map { |item| item[:file] }).map { |file| { file: file, time: 0.0 } }
+      (files - result.map { |item| item[:file] }).map { |file| { file: file, time: nil } }
     end
 
-    def diff
-      files   = actual_files
-      result  = RSpeed::Database.result.uniq { |item| item[:file] }
-      added   = added_data(files: files, result: result)
-      actual  = actual_data(files: files, result: result) + added_data(files: files, result: result)
-      removed = removed_data(files: files, result: result)
+    def diff(from: actual_files, to: RSpeed::Database.result)
+      to      = to.uniq { |item| item[:file] }
+      added   = added_data(files: from, result: to)
+      actual  = actual_data(files: from, result: to) + added_data(files: from, result: to)
+      removed = removed_data(files: from, result: to)
 
       {
         actual_files:  actual,
         actual_time:   sum_time(data: actual),
+        added_files:   added,
+        added_time:    sum_time(data: added),
+        removed_files: removed,
+        removed_time:  sum_time(data: removed),
+      }
+    end
+
+    def final_diff(from: RSpeed::Database.previous_result, to: RSpeed::Database.result)
+      from           = from.uniq { |item| item[:file] }
+      to             = to.uniq { |item| item[:file] }
+      previous_files = from.map { |item| item[:file] }
+      actual_files   = to.map { |item| item[:file] }
+      added          = to.reject { |item| previous_files.include?(item[:file]) }
+      removed        = from.reject { |item| actual_files.include?(item[:file]) }
+
+      {
+        actual_files:  to,
+        actual_time:   sum_time(data: to),
         added_files:   added,
         added_time:    sum_time(data: added),
         removed_files: removed,
@@ -46,6 +63,8 @@ module RSpeed
     end
 
     def sum_time(data:)
+      return '?' if data.all? { |item| item[:time].nil? }
+
       data.sum { |item| item[:time].to_f }
     end
   end

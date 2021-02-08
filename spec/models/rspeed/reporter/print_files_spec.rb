@@ -12,6 +12,8 @@ RSpec.describe RSpeed::Reporter, '#print_files' do
   it 'prints the attributes' do
     output = <<~HEREDOC
       +---------+-----------------------------+-----------+
+      |                      RSpeed                       |
+      +---------+-----------------------------+-----------+
       | 3 specs | Pipe 1/1                    | Last Time |
       +---------+-----------------------------+-----------+
       | 01      | ./spec/fixtures/1_spec.rb:1 | 1.1       |

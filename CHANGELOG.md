@@ -4,6 +4,7 @@
 
 - Prints pipe info into a table on the console;
 - The previous result is keeped alive for further checks;
+- Adds final report show actual, added and removed;
 
 ## v0.6.0
 

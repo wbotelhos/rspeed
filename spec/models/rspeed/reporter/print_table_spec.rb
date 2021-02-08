@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe RSpeed::Reporter, '#print_table' do
-  let!(:headings) { %w[Item Value] }
+  let!(:headings) { %w[Global Value] }
 
   let!(:rows) do
     [
@@ -14,7 +14,9 @@ RSpec.describe RSpeed::Reporter, '#print_table' do
   it 'prints' do
     output = <<~HEREDOC
       +--------------+-------+
-      | Item         | Value |
+      |        RSpeed        |
+      +--------------+-------+
+      | Global       | Value |
       +--------------+-------+
       | Actual Time  | 1.0   |
       | Removed Time | 2.0   |

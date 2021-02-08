@@ -7,10 +7,10 @@ module RSpeed
     require 'terminal-table'
 
     def call
-      diff = RSpeed::Differ.diff
+      diff = RSpeed::Differ.final_diff
 
       print_table(
-        headings: %w[Item Value],
+        headings: %w[Global Value],
 
         rows: [
           ['Actual Time', diff[:actual_time]],
@@ -32,7 +32,7 @@ module RSpeed
     end
 
     def print_table(headings:, rows:)
-      puts(Terminal::Table.new(headings: headings, rows: rows))
+      puts(Terminal::Table.new(headings: headings, rows: rows, title: 'RSpeed'))
     end
   end
 end
