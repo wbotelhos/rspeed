@@ -31,10 +31,6 @@ module RSpeed
     end
 
     def before_suite
-      clean_profile
-    end
-
-    def clean_profile
       RSpeed::Logger.log(self, __method__, 'Cleanning current flag and profile.')
 
       RSpeed::Redis.destroy(pattern: RSpeed::Variable.pipe)
