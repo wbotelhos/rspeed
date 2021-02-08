@@ -13,7 +13,7 @@ RSpec.describe RSpeed::Differ, '#added_data' do
 
   it 'returns the added data files with time as zero since we do not know yet' do
     expect(described_class.added_data(files: files, result: result)).to eq [
-      { file: './spec/fixtures/new_spec.rb:4', time: 0 },
+      { file: './spec/fixtures/new_spec.rb:4', time: 0.0 },
     ]
   end
 end

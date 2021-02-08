@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'redis'
   spec.add_dependency 'rspec'
+  spec.add_dependency 'terminal-table'
 
   spec.add_development_dependency 'codecov'
   spec.add_development_dependency 'env_mock'

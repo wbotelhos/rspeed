@@ -1,6 +1,6 @@
 ## master
 
-- None;
+- Prints pipe info into a table on the console;
 
 ## v0.6.0
 

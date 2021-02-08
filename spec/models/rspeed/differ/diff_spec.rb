@@ -21,20 +21,24 @@ RSpec.describe RSpeed::Differ, '#diff' do
   it 'removes removed specs and adds new spec and keeps keeped specs based on rspeed key values' do
     EnvMock.mock(rspeed_spec_path: './spec/fixtures/*_spec.rb') do
       expect(described_class.diff).to eq(
-        actual: [
+        actual_files: [
           { file: './spec/fixtures/1_spec.rb:4', time: 1.4 },
           { file: './spec/fixtures/1_spec.rb:6', time: 1.6 },
           { file: './spec/fixtures/1_spec.rb:8', time: 1.8 },
           { file: './spec/fixtures/2_spec.rb:4', time: 2.4 },
-          { file: './spec/fixtures/new_spec.rb:1', time: 0 },
+          { file: './spec/fixtures/new_spec.rb:1', time: 0.0 },
         ],
 
-        added: '--',
+        actual_time: 7.2,
+        added_files: [{ file: './spec/fixtures/new_spec.rb:1', time: 0.0 }],
+        added_time:  0,
 
-        removed: [
+        removed_files: [
           { file: './spec/fixtures/x_spec.rb:1', time: 3 },
           { file: './spec/fixtures/2_spec.rb:666', time: 6 },
-        ]
+        ],
+
+        removed_time: 9.0
       )
     end
   end
@@ -48,20 +52,24 @@ RSpec.describe RSpeed::Differ, '#diff' do
     it 'is removed' do
       EnvMock.mock(rspeed_spec_path: './spec/fixtures/*_spec.rb') do
         expect(described_class.diff).to eq(
-          actual: [
+          actual_files: [
             { file: './spec/fixtures/1_spec.rb:4', time: 1.4 },
             { file: './spec/fixtures/1_spec.rb:6', time: 1.6 },
             { file: './spec/fixtures/1_spec.rb:8', time: 1.8 },
             { file: './spec/fixtures/2_spec.rb:4', time: 2.4 },
-            { file: './spec/fixtures/new_spec.rb:1', time: 0 },
+            { file: './spec/fixtures/new_spec.rb:1', time: 0.0 },
           ],
 
-          added: '--',
+          actual_time: 7.2,
+          added_files: [{ file: './spec/fixtures/new_spec.rb:1', time: 0.0 }],
+          added_time:  0,
 
-          removed: [
+          removed_files: [
             { file: './spec/fixtures/x_spec.rb:1', time: 3 },
             { file: './spec/fixtures/2_spec.rb:666', time: 6 },
-          ]
+          ],
+
+          removed_time: 9.0
         )
       end
     end

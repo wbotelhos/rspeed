@@ -4,6 +4,7 @@ PATH
     rspeed (0.6.0)
       redis
       rspec
+      terminal-table
 
 GEM
   remote: https://rubygems.org/
@@ -85,6 +86,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.2)
+    terminal-table (1.6.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
