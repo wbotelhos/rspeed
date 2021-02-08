@@ -23,6 +23,10 @@ module RSpeed
       append_app_name('rspeed:pipe', plus: format('%02d', RSpeed::Env.pipe))
     end
 
+    def previous_result
+      append_app_name('rspeed', plus: 'previous')
+    end
+
     def profile
       append_app_name('rspeed:profile', plus: format('%02d', RSpeed::Env.pipe))
     end

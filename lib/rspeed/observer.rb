@@ -19,6 +19,7 @@ module RSpeed
 
       return unless RSpeed::Redis.specs_finished?
 
+      RSpeed::Redis.version_the_result if RSpeed::Redis.result?
       RSpeed::Splitter.consolidate
       RSpeed::Reporter.call
       RSpeed::Redis.clean

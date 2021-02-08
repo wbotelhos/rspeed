@@ -16,9 +16,10 @@ RSpec.describe RSpeed::Observer, '.after_suite' do
   context 'when all specs finished' do
     before do
       allow(RSpeed::Redis).to receive(:specs_finished?).and_return(true)
+      allow(RSpeed::Redis).to receive(:version_the_result)
       allow(RSpeed::Splitter).to receive(:consolidate)
-      allow(RSpeed::Redis).to receive(:clean)
       allow(RSpeed::Reporter).to receive(:call)
+      allow(RSpeed::Redis).to receive(:clean)
     end
 
     it 'consolidates profiles' do

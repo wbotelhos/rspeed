@@ -68,5 +68,11 @@ module RSpeed
         RSpeed::Logger.log(self, __method__, "Specs #{boo ? 'initialized.' : 'not initialized yet.'}")
       end
     end
+
+    def version_the_result
+      RSpeed::Logger.log(self, __method__, 'Versioning the result.')
+
+      client.rename(RSpeed::Variable.result, RSpeed::Variable.previous_result)
+    end
   end
 end
